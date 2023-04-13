@@ -36,6 +36,9 @@ export default {
     });
     this.getData()
   },
+  onPullDownRefresh () {
+    this.getData()
+  },
   methods: {
     getData () {
       const db = uniCloud.database()
@@ -48,6 +51,7 @@ export default {
         })
       }).finally(() => {
         uni.hideLoading();
+        uni.stopPullDownRefresh();
       })
     },
     clickItem (item) {
