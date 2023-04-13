@@ -1,35 +1,59 @@
 <template>
   <view class="content">
-    <view class="listItem" v-for="item in 10" :key="item" @click="clickItem">
+    <view class="listItem" v-for="item in list" :key="item" @click="clickItem(item)">
       <view class="pic">
-        <image class="logo" src="/static/logo.png"></image>
+        <image class="logo" :src="item.imgUrls[0]" mode="aspectFill"></image>
       </view>
       <view class="text">
         <view class="header">
-          <u-tag text="车牌号" size="mini"></u-tag> 粤A114514
+          <u-tag text="车牌号" size="mini"></u-tag>
+          <view> &nbsp;{{`${item.license}`}}</view>
         </view>
         <view class="info">
-          <u-tag text="公里数" size="mini" type="warning"></u-tag> 10KM
+          <u-tag text="公里数" size="mini" type="warning"></u-tag>
+          <view> &nbsp;{{`${item.km}km`}}</view>
         </view>
       </view>
     </view>
+    <u-empty :show="!list.length" mode="list" icon="/static/dataEmpty.png" text='车辆信息为空' textSize='2vh'
+      marginTop="25vh" />
   </view>
 </template>
 
 <script>
+import store from '@/store/index.js';
 export default {
   data () {
     return {
-      title: 'Hello'
+      title: 'Hello',
+      list: [],
     }
   },
-  onLoad () {
-
+  onShow () {
+    uni.showLoading({
+      title: '加载中',
+      mask: true
+    });
+    this.getData()
   },
   methods: {
-    clickItem () {
+    getData () {
+      const db = uniCloud.database()
+      db.collection('carInfo').get().then(res => {
+        this.list = res.result.data
+      }).catch(err => {
+        uni.showModal({
+          content: err.message || '查询失败',
+          showCancel: false
+        })
+      }).finally(() => {
+        uni.hideLoading();
+      })
+    },
+    clickItem (item) {
+      this.$store.state.clickItem = item
       uni.navigateTo({
-        url: '/pages/carInfo/carInfo?id=114514'
+        url: '/pages/carInfo/carInfo'
       });
     }
   }
@@ -39,7 +63,6 @@ export default {
 <style lang="scss" scoped>
 .content {
   width: 100vw;
-  height: 100vh;
 
   .listItem {
     display: flex;
@@ -53,9 +76,9 @@ export default {
       justify-content: center;
 
       >image {
-        width: 13vh;
-        height: 13vh;
-        border-radius: 2vh;
+        width: 14vh;
+        height: 14vh;
+        border-radius: 1vh;
       }
     }
 
@@ -65,6 +88,11 @@ export default {
       flex-direction: column;
       justify-content: space-around;
       margin-left: 2vw;
+
+      .header,
+      .info {
+        display: flex;
+      }
     }
   }
 

@@ -3,7 +3,7 @@
     <u-notice-bar :text="text"></u-notice-bar>
     <view class="img">
       <u-upload :fileList="fileList" @afterRead="afterRead" @delete="deletePic" multiple :maxCount="4"
-        :previewFullImage="true"></u-upload>
+        :previewFullImage="true" style="flex:none;"></u-upload>
     </view>
     <u-line></u-line>
     <view class="form">
@@ -17,6 +17,9 @@
         </view>
       </view>
       <view class="btn">
+        <u-button type="warning" text="一键清空" shape="circle" @click="clearInfo"></u-button>
+      </view>
+      <view class="btn">
         <u-button type="success" text="确定新增" shape="circle" @click="submit"></u-button>
       </view>
     </view>
@@ -24,6 +27,7 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
 export default {
   data () {
     return {
@@ -52,26 +56,14 @@ export default {
         })
       })
       for (let i = 0; i < lists.length; i++) {
-        const result = await this.uploadFilePromise(lists[i].url)
         let item = this.fileList[fileListLen]
         this.fileList.splice(fileListLen, 1, Object.assign(item, {
           status: 'success',
           message: '',
-          url: result
+          url: ''
         }))
         fileListLen++
       }
-    },
-    uploadFilePromise (url) {
-      // return new Promise((resolve, reject) => {
-      //   uniCloud.uploadFile({
-      //     filePath: url, //要上传的文件对象
-      //     cloudPath: Date.now() + '.png', //保存在云端的文件名，这里以时间戳命名
-      //     success (res) {
-      //       let imageUrl = res.fileID //云端返回的图片地址
-      //     }
-      //   })
-      // })
     },
     submit () {
       if (!this.fileList.length) {
@@ -96,13 +88,73 @@ export default {
       }
       if (lock) return
       uni.showLoading({
-        title: '正在新增~'
+        title: '正在新增~',
+        mask: true
       });
+      // 遍历上传图片
+      Promise.all(
+        this.fileList.map((val) => this.uploadFilePromise(val.thumb))
+      ).then(imgUrls => {
+        this.addData(imgUrls)
+      }).catch(err => {
+        uni.hideLoading();
+        uni.showModal({
+          content: err.message || '新增失败',
+          showCancel: false
+        })
+      })
+    },
+    uploadFilePromise (url) {
+      return new Promise((resolve, reject) => {
+        uniCloud.uploadFile({
+          filePath: url, //要上传的文件对象
+          cloudPath: Date.now() + '.png', //保存在云端的文件名，这里以时间戳命名
+          success (res) {
+            resolve(res.fileID) //云端返回的图片地址
+          },
+          fail (err) {
+            reject(err)
+          }
+        })
+      })
+    },
+    // 插入1条数据，同时判断成功失败状态
+    addData (imgUrls) {
+      const db = uniCloud.database();
+      db.collection("carInfo")
+        .add({
+          license: this.inputType[0].value,
+          km: this.inputType[1].value,
+          maintenance_km: this.inputType[2].value,
+          toastTime: '',
+          imgUrls: imgUrls,
+          createTime: dayjs().format('YYYY-MM-DD HH:MM')
+        })
+        .then((res) => {
+          uni.showToast({
+            title: '新增成功',
+            duration: 1500,
+          })
+          this.clearInfo()
+        })
+        .catch((err) => {
+          uni.showModal({
+            content: err.message || '新增失败',
+            showCancel: false
+          })
+        }).finally(() => {
+          uni.hideLoading();
+        })
+    },
+    clearInfo () {
+      this.fileList.length = 0
+      for (let i = 0; i < this.inputType.length; i++) {
+        this.inputType[i].value = ''
+      }
     }
   }
 }
 </script>
-
 <style lang="scss" scoped>
 .content {
   width: 100vw;
@@ -113,10 +165,6 @@ export default {
     justify-content: center;
     align-items: center;
     height: 20vh;
-
-    .u-upload {
-      flex: none;
-    }
   }
 
   .inputItem {
@@ -147,4 +195,6 @@ export default {
     margin-top: 2vh;
   }
 }
+</style>
+<style>
 </style>

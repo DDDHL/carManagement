@@ -14,5 +14,12 @@ export default {
 
 <style lang="scss">
 @import "uview-plus/index.scss";
-/*每个页面公共css */
+
+::v-deep .u-upload {
+  flex: none !important;
+}
+
+::v-deep .u-modal__content__text {
+  flex: none !important;
+}
 </style>

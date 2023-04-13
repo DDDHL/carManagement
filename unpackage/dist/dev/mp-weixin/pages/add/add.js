@@ -1,12 +1,1 @@
-"use strict";
-const common_vendor = require("../../common/vendor.js");
-const _sfc_main = {
-  data() {
-    return {};
-  }
-};
-function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return {};
-}
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/object2/carManagement/pages/add/add.vue"]]);
-wx.createPage(MiniProgramPage);
+"use strict";const o=require("../../common/vendor.js"),n=()=>"../../component/imgUpload.js",t={data(){return{}},components:{imgUpload:n}};Array||o.resolveComponent("imgUpload")();function a(e,r,s,p,m,_){return{}}const c=o._export_sfc(t,[["render",a],["__file","D:/object2/carManagement/pages/add/add.vue"]]);wx.createPage(c);

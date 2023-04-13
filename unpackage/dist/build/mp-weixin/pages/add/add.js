@@ -1,0 +1,1 @@
+"use strict";const o=require("../../common/vendor.js"),e={data:()=>({}),components:{imgUpload:()=>"../../component/imgUpload.js"}};if(!Array){o.resolveComponent("imgUpload")()}const n=o._export_sfc(e,[["render",function(o,e,n,r,t,c){return{}}]]);wx.createPage(n);

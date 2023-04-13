@@ -1,0 +1,13 @@
+{
+  "navigationBarTitleText": "车辆详情",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-swiper": "../../node-modules/uview-plus/components/u-swiper/u-swiper",
+    "u-line": "../../node-modules/uview-plus/components/u-line/u-line",
+    "u-tag": "../../node-modules/uview-plus/components/u-tag/u-tag",
+    "u-button": "../../node-modules/uview-plus/components/u-button/u-button",
+    "u-modal": "../../node-modules/uview-plus/components/u-modal/u-modal",
+    "u--input": "../../node-modules/uview-plus/components/u--input/u--input",
+    "u-popup": "../../node-modules/uview-plus/components/u-popup/u-popup"
+  }
+}
