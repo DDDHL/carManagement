@@ -1,1 +1,292 @@
-"use strict";const t=require("../../../../common/vendor.js"),c={name:"u-upload",mixins:[t.mpMixin,t.mixin,t.mixinUp,t.props$11],data(){return{lists:[],isInCount:!0}},watch:{fileList:{immediate:!0,handler(){this.formatFileList()},immediate:!0,deep:!0}},emits:["error","beforeRead","oversize","afterRead","delete","clickPreview"],methods:{formatFileList(){const{fileList:e=[],maxCount:a}=this,o=e.map(i=>Object.assign(Object.assign({},i),{isImage:this.accept==="image"||t.index.$u.test.image(i.url||i.thumb),isVideo:this.accept==="video"||t.index.$u.test.video(i.url||i.thumb),deletable:typeof i.deletable=="boolean"?i.deletable:this.deletable}));this.lists=o,this.isInCount=o.length<a},chooseFile(){const{maxCount:e,multiple:a,lists:o,disabled:i}=this;if(i)return;let l;try{l=t.index.$u.test.array(this.capture)?this.capture:this.capture.split(",")}catch{l=[]}t.chooseFile(Object.assign({accept:this.accept,multiple:this.multiple,capture:l,compressed:this.compressed,maxDuration:this.maxDuration,sizeType:this.sizeType,camera:this.camera},{maxCount:e-o.length})).then(n=>{this.onBeforeRead(a?n:n[0])}).catch(n=>{this.$emit("error",n)})},onBeforeRead(e){const{beforeRead:a,useBeforeRead:o}=this;let i=!0;t.index.$u.test.func(a)&&(i=a(e,this.getDetail())),o&&(i=new Promise((l,n)=>{this.$emit("beforeRead",Object.assign(Object.assign({file:e},this.getDetail()),{callback:s=>{s?l():n()}}))})),i&&(t.index.$u.test.promise(i)?i.then(l=>this.onAfterRead(l||e)):this.onAfterRead(e))},getDetail(e){return{name:this.name,index:e??this.fileList.length}},onAfterRead(e){const{maxSize:a,afterRead:o}=this;if(Array.isArray(e)?e.some(l=>l.size>a):e.size>a){this.$emit("oversize",Object.assign({file:e},this.getDetail()));return}typeof o=="function"&&o(e,this.getDetail()),this.$emit("afterRead",Object.assign({file:e},this.getDetail()))},deleteItem(e){this.$emit("delete",Object.assign(Object.assign({},this.getDetail(e)),{file:this.fileList[e]}))},onPreviewImage(e){!e.isImage||!this.previewFullImage||t.index.previewImage({urls:this.lists.filter(a=>this.accept==="image"||t.index.$u.test.image(a.url||a.thumb)).map(a=>a.url||a.thumb),current:e.url||e.thumb,fail(){t.index.$u.toast("预览图片失败")}})},onPreviewVideo(e){if(!this.data.previewFullImage)return;const{index:a}=e.currentTarget.dataset,{lists:o}=this.data;t.wx$1.previewMedia({sources:o.filter(i=>isVideoFile(i)).map(i=>Object.assign(Object.assign({},i),{type:"video"})),current:a,fail(){t.index.$u.toast("预览视频失败")}})},onClickPreview(e){const{index:a}=e.currentTarget.dataset,o=this.data.lists[a];this.$emit("clickPreview",Object.assign(Object.assign({},o),this.getDetail(a)))}}};if(!Array){const e=t.resolveComponent("u-icon"),a=t.resolveComponent("u-loading-icon");(e+a)()}const h=()=>"../u-icon/u-icon.js",f=()=>"../u-loading-icon/u-loading-icon.js";Math||(h+f)();function p(e,a,o,i,l,n){return t.e({a:e.previewImage},e.previewImage?{b:t.f(l.lists,(s,u,r)=>t.e({a:s.isImage||s.type&&s.type==="image"},s.isImage||s.type&&s.type==="image"?{b:s.thumb||s.url,c:e.imageMode,d:t.o(d=>n.onPreviewImage(s),u),e:t.s({width:e.$u.addUnit(e.width),height:e.$u.addUnit(e.height)})}:{f:"cafe0b2a-0-"+r,g:t.p({color:"#80CBF9",size:"26",name:s.isVideo||s.type&&s.type==="video"?"movie":"folder"}),h:t.t(s.isVideo||s.type&&s.type==="video"?"视频":"文件")},{i:s.status==="uploading"||s.status==="failed"},s.status==="uploading"||s.status==="failed"?t.e({j:s.status==="failed"},s.status==="failed"?{k:"cafe0b2a-1-"+r,l:t.p({name:"close-circle",color:"#ffffff",size:"25"})}:{m:"cafe0b2a-2-"+r,n:t.p({size:"22",mode:"circle",color:"#ffffff"})},{o:s.message},s.message?{p:t.t(s.message)}:{}):{},{q:s.status!=="uploading"&&(e.deletable||s.deletable)},s.status!=="uploading"&&(e.deletable||s.deletable)?{r:"cafe0b2a-3-"+r,s:t.p({name:"close",color:"#ffffff",size:"10"}),t:t.o(d=>n.deleteItem(u),u)}:{},{v:s.status==="success"},s.status==="success"?{w:"cafe0b2a-4-"+r,x:t.p({name:"checkmark",color:"#ffffff",size:"12"})}:{},{y:u}))}:{},{c:l.isInCount},l.isInCount?t.e({d:e.$slots.default||e.$slots.$default},e.$slots.default||e.$slots.$default?{e:t.o((...s)=>n.chooseFile&&n.chooseFile(...s))}:t.e({f:t.p({name:e.uploadIcon,size:"26",color:e.uploadIconColor}),g:e.uploadText},e.uploadText?{h:t.t(e.uploadText)}:{},{i:e.disabled?"":"u-upload__button--hover",j:t.o((...s)=>n.chooseFile&&n.chooseFile(...s)),k:t.n(e.disabled&&"u-upload__button--disabled"),l:t.s({width:e.$u.addUnit(e.width),height:e.$u.addUnit(e.height)})})):{},{m:t.s(e.$u.addStyle(e.customStyle))})}const g=t._export_sfc(c,[["render",p],["__scopeId","data-v-cafe0b2a"],["__file","D:/object2/carManagement/node_modules/uview-plus/components/u-upload/u-upload.vue"]]);wx.createComponent(g);
+"use strict";
+const common_vendor = require("../../../../common/vendor.js");
+const _sfc_main = {
+  name: "u-upload",
+  mixins: [common_vendor.mpMixin, common_vendor.mixin, common_vendor.mixinUp, common_vendor.props$11],
+  data() {
+    return {
+      lists: [],
+      isInCount: true
+    };
+  },
+  watch: {
+    // 监听文件列表的变化，重新整理内部数据
+    fileList: {
+      immediate: true,
+      handler() {
+        this.formatFileList();
+      },
+      immediate: true,
+      deep: true
+    }
+  },
+  emits: ["error", "beforeRead", "oversize", "afterRead", "delete", "clickPreview"],
+  methods: {
+    formatFileList() {
+      const {
+        fileList = [],
+        maxCount
+      } = this;
+      const lists = fileList.map(
+        (item) => Object.assign(Object.assign({}, item), {
+          // 如果item.url为本地选择的blob文件的话，无法判断其为video还是image，此处优先通过accept做判断处理
+          isImage: this.accept === "image" || common_vendor.index.$u.test.image(item.url || item.thumb),
+          isVideo: this.accept === "video" || common_vendor.index.$u.test.video(item.url || item.thumb),
+          deletable: typeof item.deletable === "boolean" ? item.deletable : this.deletable
+        })
+      );
+      this.lists = lists;
+      this.isInCount = lists.length < maxCount;
+    },
+    chooseFile() {
+      const {
+        maxCount,
+        multiple,
+        lists,
+        disabled
+      } = this;
+      if (disabled)
+        return;
+      let capture;
+      try {
+        capture = common_vendor.index.$u.test.array(this.capture) ? this.capture : this.capture.split(",");
+      } catch (e) {
+        capture = [];
+      }
+      common_vendor.chooseFile(
+        Object.assign({
+          accept: this.accept,
+          multiple: this.multiple,
+          capture,
+          compressed: this.compressed,
+          maxDuration: this.maxDuration,
+          sizeType: this.sizeType,
+          camera: this.camera
+        }, {
+          maxCount: maxCount - lists.length
+        })
+      ).then((res) => {
+        this.onBeforeRead(multiple ? res : res[0]);
+      }).catch((error) => {
+        this.$emit("error", error);
+      });
+    },
+    // 文件读取之前
+    onBeforeRead(file) {
+      const {
+        beforeRead,
+        useBeforeRead
+      } = this;
+      let res = true;
+      if (common_vendor.index.$u.test.func(beforeRead)) {
+        res = beforeRead(file, this.getDetail());
+      }
+      if (useBeforeRead) {
+        res = new Promise((resolve, reject) => {
+          this.$emit(
+            "beforeRead",
+            Object.assign(Object.assign({
+              file
+            }, this.getDetail()), {
+              callback: (ok) => {
+                ok ? resolve() : reject();
+              }
+            })
+          );
+        });
+      }
+      if (!res) {
+        return;
+      }
+      if (common_vendor.index.$u.test.promise(res)) {
+        res.then((data) => this.onAfterRead(data || file));
+      } else {
+        this.onAfterRead(file);
+      }
+    },
+    getDetail(index) {
+      return {
+        name: this.name,
+        index: index == null ? this.fileList.length : index
+      };
+    },
+    onAfterRead(file) {
+      const {
+        maxSize,
+        afterRead
+      } = this;
+      const oversize = Array.isArray(file) ? file.some((item) => item.size > maxSize) : file.size > maxSize;
+      if (oversize) {
+        this.$emit("oversize", Object.assign({
+          file
+        }, this.getDetail()));
+        return;
+      }
+      if (typeof afterRead === "function") {
+        afterRead(file, this.getDetail());
+      }
+      this.$emit("afterRead", Object.assign({
+        file
+      }, this.getDetail()));
+    },
+    deleteItem(index) {
+      this.$emit(
+        "delete",
+        Object.assign(Object.assign({}, this.getDetail(index)), {
+          file: this.fileList[index]
+        })
+      );
+    },
+    // 预览图片
+    onPreviewImage(item) {
+      if (!item.isImage || !this.previewFullImage)
+        return;
+      common_vendor.index.previewImage({
+        // 先filter找出为图片的item，再返回filter结果中的图片url
+        urls: this.lists.filter((item2) => this.accept === "image" || common_vendor.index.$u.test.image(item2.url || item2.thumb)).map((item2) => item2.url || item2.thumb),
+        current: item.url || item.thumb,
+        fail() {
+          common_vendor.index.$u.toast("预览图片失败");
+        }
+      });
+    },
+    onPreviewVideo(event) {
+      if (!this.data.previewFullImage)
+        return;
+      const {
+        index
+      } = event.currentTarget.dataset;
+      const {
+        lists
+      } = this.data;
+      common_vendor.wx$1.previewMedia({
+        sources: lists.filter((item) => isVideoFile(item)).map(
+          (item) => Object.assign(Object.assign({}, item), {
+            type: "video"
+          })
+        ),
+        current: index,
+        fail() {
+          common_vendor.index.$u.toast("预览视频失败");
+        }
+      });
+    },
+    onClickPreview(event) {
+      const {
+        index
+      } = event.currentTarget.dataset;
+      const item = this.data.lists[index];
+      this.$emit(
+        "clickPreview",
+        Object.assign(Object.assign({}, item), this.getDetail(index))
+      );
+    }
+  }
+};
+if (!Array) {
+  const _easycom_u_icon2 = common_vendor.resolveComponent("u-icon");
+  const _easycom_u_loading_icon2 = common_vendor.resolveComponent("u-loading-icon");
+  (_easycom_u_icon2 + _easycom_u_loading_icon2)();
+}
+const _easycom_u_icon = () => "../u-icon/u-icon.js";
+const _easycom_u_loading_icon = () => "../u-loading-icon/u-loading-icon.js";
+if (!Math) {
+  (_easycom_u_icon + _easycom_u_loading_icon)();
+}
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return common_vendor.e({
+    a: _ctx.previewImage
+  }, _ctx.previewImage ? {
+    b: common_vendor.f($data.lists, (item, index, i0) => {
+      return common_vendor.e({
+        a: item.isImage || item.type && item.type === "image"
+      }, item.isImage || item.type && item.type === "image" ? {
+        b: item.thumb || item.url,
+        c: _ctx.imageMode,
+        d: common_vendor.o(($event) => $options.onPreviewImage(item), index),
+        e: common_vendor.s({
+          width: _ctx.$u.addUnit(_ctx.width),
+          height: _ctx.$u.addUnit(_ctx.height)
+        })
+      } : {
+        f: "cafe0b2a-0-" + i0,
+        g: common_vendor.p({
+          color: "#80CBF9",
+          size: "26",
+          name: item.isVideo || item.type && item.type === "video" ? "movie" : "folder"
+        }),
+        h: common_vendor.t(item.isVideo || item.type && item.type === "video" ? "视频" : "文件")
+      }, {
+        i: item.status === "uploading" || item.status === "failed"
+      }, item.status === "uploading" || item.status === "failed" ? common_vendor.e({
+        j: item.status === "failed"
+      }, item.status === "failed" ? {
+        k: "cafe0b2a-1-" + i0,
+        l: common_vendor.p({
+          name: "close-circle",
+          color: "#ffffff",
+          size: "25"
+        })
+      } : {
+        m: "cafe0b2a-2-" + i0,
+        n: common_vendor.p({
+          size: "22",
+          mode: "circle",
+          color: "#ffffff"
+        })
+      }, {
+        o: item.message
+      }, item.message ? {
+        p: common_vendor.t(item.message)
+      } : {}) : {}, {
+        q: item.status !== "uploading" && (_ctx.deletable || item.deletable)
+      }, item.status !== "uploading" && (_ctx.deletable || item.deletable) ? {
+        r: "cafe0b2a-3-" + i0,
+        s: common_vendor.p({
+          name: "close",
+          color: "#ffffff",
+          size: "10"
+        }),
+        t: common_vendor.o(($event) => $options.deleteItem(index), index)
+      } : {}, {
+        v: item.status === "success"
+      }, item.status === "success" ? {
+        w: "cafe0b2a-4-" + i0,
+        x: common_vendor.p({
+          name: "checkmark",
+          color: "#ffffff",
+          size: "12"
+        })
+      } : {}, {
+        y: index
+      });
+    })
+  } : {}, {
+    c: $data.isInCount
+  }, $data.isInCount ? common_vendor.e({
+    d: _ctx.$slots.default || _ctx.$slots.$default
+  }, _ctx.$slots.default || _ctx.$slots.$default ? {
+    e: common_vendor.o((...args) => $options.chooseFile && $options.chooseFile(...args))
+  } : common_vendor.e({
+    f: common_vendor.p({
+      name: _ctx.uploadIcon,
+      size: "26",
+      color: _ctx.uploadIconColor
+    }),
+    g: _ctx.uploadText
+  }, _ctx.uploadText ? {
+    h: common_vendor.t(_ctx.uploadText)
+  } : {}, {
+    i: !_ctx.disabled ? "u-upload__button--hover" : "",
+    j: common_vendor.o((...args) => $options.chooseFile && $options.chooseFile(...args)),
+    k: common_vendor.n(_ctx.disabled && "u-upload__button--disabled"),
+    l: common_vendor.s({
+      width: _ctx.$u.addUnit(_ctx.width),
+      height: _ctx.$u.addUnit(_ctx.height)
+    })
+  })) : {}, {
+    m: common_vendor.s(_ctx.$u.addStyle(_ctx.customStyle))
+  });
+}
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-cafe0b2a"], ["__file", "D:/object2/carManagement/node_modules/uview-plus/components/u-upload/u-upload.vue"]]);
+wx.createComponent(Component);

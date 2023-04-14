@@ -1,1 +1,31 @@
-"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const o=require("./common/vendor.js"),p=require("./store/index.js"),c={onLaunch:function(){console.log("App Launch")},onShow:function(){console.log("App Show")},onHide:function(){console.log("App Hide")}},t=o._export_sfc(c,[["__file","D:/object2/carManagement/App.vue"]]);function n(){const e=o.createSSRApp(t);return e.use(p.store),{app:e}}n().app.mount("#app");exports.createApp=n;
+"use strict";
+Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
+const common_vendor = require("./common/vendor.js");
+const store_index = require("./store/index.js");
+if (!Math) {
+  "./pages/index/index.js";
+  "./pages/add/add.js";
+  "./pages/carInfo/carInfo.js";
+  "./pages/user/user.js";
+}
+const _sfc_main = {
+  onLaunch: function() {
+    console.log("App Launch");
+  },
+  onShow: function() {
+    console.log("App Show");
+  },
+  onHide: function() {
+    console.log("App Hide");
+  }
+};
+const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/object2/carManagement/App.vue"]]);
+function createApp() {
+  const app = common_vendor.createSSRApp(App);
+  app.use(store_index.store);
+  return {
+    app
+  };
+}
+createApp().app.mount("#app");
+exports.createApp = createApp;

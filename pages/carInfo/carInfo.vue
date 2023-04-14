@@ -1,7 +1,7 @@
 <template>
   <view class="content">
     <view class="header">
-      <u-swiper :list="carInfo.imgUrls" height="300" img-mode="aspectFit" indicator indicatorMode="line"
+      <u-swiper :list="carInfo.imgUrls" height="300" img-mode="aspectFill" indicator indicatorMode="line"
         circular></u-swiper>
     </view>
     <u-line></u-line>
@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import { loginCheck } from '@/utils/publicMethods'
 export default {
   data () {
     return {
@@ -127,6 +128,10 @@ export default {
       }
     },
     toast (type) {
+      if (!this.$store.state.loginInfo.isLogin) {
+        loginCheck()
+        return
+      }
       this.type = type
       switch (type) {
         case 'set':
@@ -189,9 +194,6 @@ export default {
 
   .center {
     width: 100vw;
-    border-top-left-radius: 3vh;
-    border-top-right-radius: 3vh;
-    border-top: 1px solid #dedede;
     display: flex;
     flex-direction: column;
 

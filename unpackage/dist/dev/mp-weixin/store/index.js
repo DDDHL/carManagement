@@ -1,1 +1,16 @@
-"use strict";const e=require("../common/vendor.js"),t=e.createStore({state:{clickItem:{}}});exports.store=t;
+"use strict";
+const common_vendor = require("../common/vendor.js");
+const store = common_vendor.createStore({
+  state: {
+    "clickItem": {},
+    "loginInfo": {
+      isLogin: false,
+      info: {
+        userName: "未登录",
+        avatar: "/static/avatar.png",
+        openId: ""
+      }
+    }
+  }
+});
+exports.store = store;

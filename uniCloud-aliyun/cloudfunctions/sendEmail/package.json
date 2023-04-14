@@ -1,0 +1,9 @@
+{
+  "name": "sendEmail",
+  "dependencies": {
+    "nodemailer": "^6.9.1"
+  },
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

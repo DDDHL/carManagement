@@ -1,1 +1,158 @@
-"use strict";const i=require("../../../../common/vendor.js"),s={name:"u-swiper",mixins:[i.mpMixin,i.mixin,i.props$2],data(){return{currentIndex:0}},watch:{current(e,n){e!==n&&(this.currentIndex=e)}},computed:{itemStyle(){return e=>{const n={};return this.nextMargin&&this.previousMargin&&(n.borderRadius=i.index.$u.addUnit(this.radius),e!==this.currentIndex&&(n.transform="scale(0.92)")),n}}},methods:{getItemType(e){if(typeof e=="string")return i.index.$u.test.video(this.getSource(e))?"video":"image";if(typeof e=="object"&&this.keyName)return e.type?e.type==="image"?"image":e.type==="video"?"video":"image":i.index.$u.test.video(this.getSource(e))?"video":"image"},getSource(e){return typeof e=="string"?e:typeof e=="object"&&this.keyName?e[this.keyName]:(i.index.$u.error("请按格式传递列表参数"),"")},change(e){const{current:n}=e.detail;this.pauseVideo(this.currentIndex),this.currentIndex=n,this.$emit("change",e.detail)},pauseVideo(e){const n=this.getSource(this.list[e]);i.index.$u.test.video(n)&&i.index.createVideoContext(`video-${e}`,this).pause()},getPoster(e){return typeof e=="object"&&e.poster?e.poster:""},clickHandler(e){this.$emit("click",e)}}};if(!Array){const e=i.resolveComponent("u-loading-icon"),n=i.resolveComponent("u-swiper-indicator");(e+n)()}const l=()=>"../u-loading-icon/u-loading-icon.js",g=()=>"../u-swiper-indicator/u-swiper-indicator.js";Math||(l+g)();function c(e,n,a,p,d,t){return i.e({a:e.loading},e.loading?{b:i.p({mode:"circle"})}:{c:i.f(e.list,(r,o,v)=>i.e({a:t.getItemType(r)==="image"},t.getItemType(r)==="image"?{b:t.getSource(r),c:e.imgMode,d:i.o(u=>t.clickHandler(o),o),e:e.$u.addUnit(e.height),f:e.$u.addUnit(e.radius)}:{},{g:t.getItemType(r)==="video"},t.getItemType(r)==="video"?{h:`video-${o}`,i:t.getSource(r),j:t.getPoster(r),k:e.showTitle&&e.$u.test.object(r)&&r.title?r.title:"",l:e.$u.addUnit(e.height),m:i.o(u=>t.clickHandler(o),o)}:{},{n:e.showTitle&&e.$u.test.object(r)&&r.title&&e.$u.test.image(t.getSource(r))},e.showTitle&&e.$u.test.object(r)&&r.title&&e.$u.test.image(t.getSource(r))?{o:i.t(r.title)}:{},{p:i.s(t.itemStyle(o)),q:o})),d:e.$u.addUnit(e.height),e:i.o((...r)=>t.change&&t.change(...r)),f:e.circular,g:e.interval,h:e.duration,i:e.autoplay,j:e.current,k:e.currentItemId,l:e.$u.addUnit(e.previousMargin),m:e.$u.addUnit(e.nextMargin),n:e.acceleration,o:e.displayMultipleItems,p:e.easingFunction},{q:!e.loading&&e.indicator&&!e.showTitle},!e.loading&&e.indicator&&!e.showTitle?{r:i.p({indicatorActiveColor:e.indicatorActiveColor,indicatorInactiveColor:e.indicatorInactiveColor,length:e.list.length,current:d.currentIndex,indicatorMode:e.indicatorMode})}:{},{s:i.s(e.$u.addStyle(e.indicatorStyle)),t:e.bgColor,v:e.$u.addUnit(e.height),w:e.$u.addUnit(e.radius)})}const h=i._export_sfc(s,[["render",c],["__scopeId","data-v-eda42115"],["__file","D:/object2/carManagement/node_modules/uview-plus/components/u-swiper/u-swiper.vue"]]);wx.createComponent(h);
+"use strict";
+const common_vendor = require("../../../../common/vendor.js");
+const _sfc_main = {
+  name: "u-swiper",
+  mixins: [common_vendor.mpMixin, common_vendor.mixin, common_vendor.props$2],
+  data() {
+    return {
+      currentIndex: 0
+    };
+  },
+  watch: {
+    current(val, preVal) {
+      if (val === preVal)
+        return;
+      this.currentIndex = val;
+    }
+  },
+  computed: {
+    itemStyle() {
+      return (index) => {
+        const style = {};
+        if (this.nextMargin && this.previousMargin) {
+          style.borderRadius = common_vendor.index.$u.addUnit(this.radius);
+          if (index !== this.currentIndex)
+            style.transform = "scale(0.92)";
+        }
+        return style;
+      };
+    }
+  },
+  methods: {
+    getItemType(item) {
+      if (typeof item === "string")
+        return common_vendor.index.$u.test.video(this.getSource(item)) ? "video" : "image";
+      if (typeof item === "object" && this.keyName) {
+        if (!item.type)
+          return common_vendor.index.$u.test.video(this.getSource(item)) ? "video" : "image";
+        if (item.type === "image")
+          return "image";
+        if (item.type === "video")
+          return "video";
+        return "image";
+      }
+    },
+    // 获取目标路径，可能数组中为字符串，对象的形式，额外可指定对象的目标属性名keyName
+    getSource(item) {
+      if (typeof item === "string")
+        return item;
+      if (typeof item === "object" && this.keyName)
+        return item[this.keyName];
+      else
+        common_vendor.index.$u.error("请按格式传递列表参数");
+      return "";
+    },
+    // 轮播切换事件
+    change(e) {
+      const {
+        current
+      } = e.detail;
+      this.pauseVideo(this.currentIndex);
+      this.currentIndex = current;
+      this.$emit("change", e.detail);
+    },
+    // 切换轮播时，暂停视频播放
+    pauseVideo(index) {
+      const lastItem = this.getSource(this.list[index]);
+      if (common_vendor.index.$u.test.video(lastItem)) {
+        const video = common_vendor.index.createVideoContext(`video-${index}`, this);
+        video.pause();
+      }
+    },
+    // 当一个轮播item为视频时，获取它的视频海报
+    getPoster(item) {
+      return typeof item === "object" && item.poster ? item.poster : "";
+    },
+    // 点击某个item
+    clickHandler(index) {
+      this.$emit("click", index);
+    }
+  }
+};
+if (!Array) {
+  const _easycom_u_loading_icon2 = common_vendor.resolveComponent("u-loading-icon");
+  const _easycom_u_swiper_indicator2 = common_vendor.resolveComponent("u-swiper-indicator");
+  (_easycom_u_loading_icon2 + _easycom_u_swiper_indicator2)();
+}
+const _easycom_u_loading_icon = () => "../u-loading-icon/u-loading-icon.js";
+const _easycom_u_swiper_indicator = () => "../u-swiper-indicator/u-swiper-indicator.js";
+if (!Math) {
+  (_easycom_u_loading_icon + _easycom_u_swiper_indicator)();
+}
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return common_vendor.e({
+    a: _ctx.loading
+  }, _ctx.loading ? {
+    b: common_vendor.p({
+      mode: "circle"
+    })
+  } : {
+    c: common_vendor.f(_ctx.list, (item, index, i0) => {
+      return common_vendor.e({
+        a: $options.getItemType(item) === "image"
+      }, $options.getItemType(item) === "image" ? {
+        b: $options.getSource(item),
+        c: _ctx.imgMode,
+        d: common_vendor.o(($event) => $options.clickHandler(index), index),
+        e: _ctx.$u.addUnit(_ctx.height),
+        f: _ctx.$u.addUnit(_ctx.radius)
+      } : {}, {
+        g: $options.getItemType(item) === "video"
+      }, $options.getItemType(item) === "video" ? {
+        h: `video-${index}`,
+        i: $options.getSource(item),
+        j: $options.getPoster(item),
+        k: _ctx.showTitle && _ctx.$u.test.object(item) && item.title ? item.title : "",
+        l: _ctx.$u.addUnit(_ctx.height),
+        m: common_vendor.o(($event) => $options.clickHandler(index), index)
+      } : {}, {
+        n: _ctx.showTitle && _ctx.$u.test.object(item) && item.title && _ctx.$u.test.image($options.getSource(item))
+      }, _ctx.showTitle && _ctx.$u.test.object(item) && item.title && _ctx.$u.test.image($options.getSource(item)) ? {
+        o: common_vendor.t(item.title)
+      } : {}, {
+        p: common_vendor.s($options.itemStyle(index)),
+        q: index
+      });
+    }),
+    d: _ctx.$u.addUnit(_ctx.height),
+    e: common_vendor.o((...args) => $options.change && $options.change(...args)),
+    f: _ctx.circular,
+    g: _ctx.interval,
+    h: _ctx.duration,
+    i: _ctx.autoplay,
+    j: _ctx.current,
+    k: _ctx.currentItemId,
+    l: _ctx.$u.addUnit(_ctx.previousMargin),
+    m: _ctx.$u.addUnit(_ctx.nextMargin),
+    n: _ctx.acceleration,
+    o: _ctx.displayMultipleItems,
+    p: _ctx.easingFunction
+  }, {
+    q: !_ctx.loading && _ctx.indicator && !_ctx.showTitle
+  }, !_ctx.loading && _ctx.indicator && !_ctx.showTitle ? {
+    r: common_vendor.p({
+      indicatorActiveColor: _ctx.indicatorActiveColor,
+      indicatorInactiveColor: _ctx.indicatorInactiveColor,
+      length: _ctx.list.length,
+      current: $data.currentIndex,
+      indicatorMode: _ctx.indicatorMode
+    })
+  } : {}, {
+    s: common_vendor.s(_ctx.$u.addStyle(_ctx.indicatorStyle)),
+    t: _ctx.bgColor,
+    v: _ctx.$u.addUnit(_ctx.height),
+    w: _ctx.$u.addUnit(_ctx.radius)
+  });
+}
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-eda42115"], ["__file", "D:/object2/carManagement/node_modules/uview-plus/components/u-swiper/u-swiper.vue"]]);
+wx.createComponent(Component);

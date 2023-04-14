@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/add/add",
-    "pages/carInfo/carInfo"
+    "pages/carInfo/carInfo",
+    "pages/user/user"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -27,6 +28,12 @@
         "iconPath": "static/add.png",
         "selectedIconPath": "static/addSelect.png",
         "text": "新增"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "static/user.png",
+        "selectedIconPath": "static/userSelect.png",
+        "text": "用户"
       }
     ]
   },

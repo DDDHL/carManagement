@@ -1,1 +1,28 @@
-"use strict";const e=require("../../../../common/vendor.js"),s={name:"u-safe-bottom",mixins:[e.mpMixin,e.mixin,e.props$16],data(){return{safeAreaBottomHeight:0,isNvue:!1}},computed:{style(){const t={};return e.index.$u.deepMerge(t,e.index.$u.addStyle(this.customStyle))}},mounted(){}};function a(t,u,c,m,o,n){return{a:e.s(n.style),b:e.n(!o.isNvue&&"u-safe-area-inset-bottom")}}const r=e._export_sfc(s,[["render",a],["__scopeId","data-v-3ec581de"],["__file","D:/object2/carManagement/node_modules/uview-plus/components/u-safe-bottom/u-safe-bottom.vue"]]);wx.createComponent(r);
+"use strict";
+const common_vendor = require("../../../../common/vendor.js");
+const _sfc_main = {
+  name: "u-safe-bottom",
+  mixins: [common_vendor.mpMixin, common_vendor.mixin, common_vendor.props$16],
+  data() {
+    return {
+      safeAreaBottomHeight: 0,
+      isNvue: false
+    };
+  },
+  computed: {
+    style() {
+      const style = {};
+      return common_vendor.index.$u.deepMerge(style, common_vendor.index.$u.addStyle(this.customStyle));
+    }
+  },
+  mounted() {
+  }
+};
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return {
+    a: common_vendor.s($options.style),
+    b: common_vendor.n(!$data.isNvue && "u-safe-area-inset-bottom")
+  };
+}
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-3ec581de"], ["__file", "D:/object2/carManagement/node_modules/uview-plus/components/u-safe-bottom/u-safe-bottom.vue"]]);
+wx.createComponent(Component);

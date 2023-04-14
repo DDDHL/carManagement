@@ -1,1 +1,49 @@
-view.data-v-bd84101d,scroll-view.data-v-bd84101d,swiper-item.data-v-bd84101d{display:flex;flex-direction:column;flex-shrink:0;flex-grow:0;flex-basis:auto;align-items:stretch;align-content:flex-start}.u-empty.data-v-bd84101d{display:flex;flex-direction:row;flex-direction:column;justify-content:center;align-items:center}.u-empty__text.data-v-bd84101d,.u-slot-wrap.data-v-bd84101d{display:flex;flex-direction:row;justify-content:center;align-items:center;margin-top:20rpx}
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+view.data-v-bd84101d, scroll-view.data-v-bd84101d, swiper-item.data-v-bd84101d {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-basis: auto;
+  align-items: stretch;
+  align-content: flex-start;
+}
+.u-empty.data-v-bd84101d {
+
+  display: flex;
+
+  flex-direction: row;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.u-empty__text.data-v-bd84101d {
+
+  display: flex;
+
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20rpx;
+}
+.u-slot-wrap.data-v-bd84101d {
+
+  display: flex;
+
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20rpx;
+}

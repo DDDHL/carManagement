@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "用户中心",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "u-button": "../../node-modules/uview-plus/components/u-button/u-button"
+  }
+}

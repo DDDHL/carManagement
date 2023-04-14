@@ -1,1 +1,57 @@
-"use strict";const e=require("../../../../common/vendor.js"),r={name:"u-transition",data(){return{inited:!1,viewStyle:{},status:"",transitionEnded:!1,display:!1,classes:""}},computed:{mergeStyle(){const{viewStyle:n,customStyle:s}=this;return{transitionDuration:`${this.duration}ms`,transitionTimingFunction:this.timingFunction,...e.index.$u.addStyle(s),...n}}},mixins:[e.mpMixin,e.mixin,e.transition,e.props$9],watch:{show:{handler(n){n?this.vueEnter():this.vueLeave()},immediate:!0}}};function a(n,s,u,d,t,o){return e.e({a:t.inited},t.inited?{b:e.o((...i)=>n.clickHandler&&n.clickHandler(...i)),c:e.n(t.classes),d:e.s(o.mergeStyle),e:e.o((...i)=>n.noop&&n.noop(...i))}:{})}const c=e._export_sfc(r,[["render",a],["__scopeId","data-v-0573594d"],["__file","D:/object2/carManagement/node_modules/uview-plus/components/u-transition/u-transition.vue"]]);wx.createComponent(c);
+"use strict";
+const common_vendor = require("../../../../common/vendor.js");
+const _sfc_main = {
+  name: "u-transition",
+  data() {
+    return {
+      inited: false,
+      // 是否显示/隐藏组件
+      viewStyle: {},
+      // 组件内部的样式
+      status: "",
+      // 记录组件动画的状态
+      transitionEnded: false,
+      // 组件是否结束的标记
+      display: false,
+      // 组件是否展示
+      classes: ""
+      // 应用的类名
+    };
+  },
+  computed: {
+    mergeStyle() {
+      const { viewStyle, customStyle } = this;
+      return {
+        transitionDuration: `${this.duration}ms`,
+        // display: `${this.display ? '' : 'none'}`,
+        transitionTimingFunction: this.timingFunction,
+        // 避免自定义样式影响到动画属性，所以写在viewStyle前面
+        ...common_vendor.index.$u.addStyle(customStyle),
+        ...viewStyle
+      };
+    }
+  },
+  // 将mixin挂在到组件中，uni.$u.mixin实际上为一个vue格式对象
+  mixins: [common_vendor.mpMixin, common_vendor.mixin, common_vendor.transition, common_vendor.props$9],
+  watch: {
+    show: {
+      handler(newVal) {
+        newVal ? this.vueEnter() : this.vueLeave();
+      },
+      // 表示同时监听初始化时的props的show的意思
+      immediate: true
+    }
+  }
+};
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return common_vendor.e({
+    a: $data.inited
+  }, $data.inited ? {
+    b: common_vendor.o((...args) => _ctx.clickHandler && _ctx.clickHandler(...args)),
+    c: common_vendor.n($data.classes),
+    d: common_vendor.s($options.mergeStyle),
+    e: common_vendor.o((...args) => _ctx.noop && _ctx.noop(...args))
+  } : {});
+}
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-0573594d"], ["__file", "D:/object2/carManagement/node_modules/uview-plus/components/u-transition/u-transition.vue"]]);
+wx.createComponent(Component);
