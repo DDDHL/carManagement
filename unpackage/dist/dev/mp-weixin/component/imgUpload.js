@@ -102,7 +102,8 @@ const _sfc_main = {
         maintenance_km: this.inputType[2].value,
         toastTime: "",
         imgUrls,
-        createTime: common_vendor.dayjs().format("YYYY-MM-DD HH:MM")
+        createTime: common_vendor.dayjs().format("YYYY-MM-DD HH:MM"),
+        creater: this.$store.state.loginInfo.info.openId
       }).then((res) => {
         common_vendor.index.showToast({
           title: "新增成功",

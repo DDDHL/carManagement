@@ -54,7 +54,34 @@
           </view>
         </view>
         <view class="set" v-else>
-
+          <view class="datePicker">
+            <view class="text">
+              日期：
+            </view>
+            <view class="time">
+              <picker mode="date" :value="date" @change="bindDateChange">
+                <view class="uni-input">{{date}}</view>
+              </picker>
+            </view>
+          </view>
+          <view class="datePicker">
+            <view class="text">
+              时间：
+            </view>
+            <view class="time">
+              <picker mode="time" :value="time" @change="bindTimeChange">
+                <view class="uni-input">{{time}}</view>
+              </picker>
+            </view>
+          </view>
+          <view class="datePicker">
+            <view class="text">
+              状态：
+            </view>
+            <view class="time">
+              你好
+            </view>
+          </view>
         </view>
         <view class="bottom">
           <u-button type="success" text="保存设置" @click="save"></u-button>
@@ -66,6 +93,7 @@
 
 <script>
 import { loginCheck } from '@/utils/publicMethods'
+import dayjs from 'dayjs'
 export default {
   data () {
     return {
@@ -77,16 +105,29 @@ export default {
       popShow: false,
       maintenance_km: 0,
       km: 0,
-      license: ''
+      license: '',
+      date: '2023-4-15',
+      time: '19:00'
     };
   },
   onLoad () {
     this.carInfo = this.$store.state.clickItem
+    console.log(this.carInfo)
     this.flashData()
+    if (!this.carInfo.toastTime) {
+      this.date = dayjs().format('YYYY-MM-DD')
+      this.time = dayjs().format('HH:MM')
+    } else {
+      this.time = dayjs(this.carInfo.toastTime).format('HH:MM')
+      this.date = dayjs(this.carInfo.toastTime).format('YYYY-MM-DD')
+    }
   },
   methods: {
-    async getData () {
-
+    bindDateChange (e) {
+      this.date = e.detail.value
+    },
+    bindTimeChange (e) {
+      this.time = e.detail.value
     },
     flashData () {
       this.maintenance_km = this.carInfo.maintenance_km
@@ -135,9 +176,25 @@ export default {
       this.type = type
       switch (type) {
         case 'set':
-          this.title = '设置定时提醒'
-          this.content = 'set'
-          this.popShow = true
+          uni.requestSubscribeMessage({
+            tmplIds: ['yHEPvG95v7yLi2zFgWykNGhxNMLaeLEE8ku9px4RynY']
+          }).then(res => {
+            let isOk = false
+            for (let key in res) {
+              if (res[key] == "accept") isOk = true
+              if (res[key == "fail"]) isOk = false
+            }
+            if (isOk) {
+              this.title = '设置定时提醒'
+              this.content = 'set'
+              this.popShow = true
+            } else {
+              uni.showModal({
+                content: '请订阅消息并勾选不在提示！',
+                showCancel: false
+              })
+            }
+          })
           break
         case 'delete':
           this.title = '删除操作'
@@ -254,7 +311,34 @@ export default {
       margin-left: 6vw;
     }
 
-    .set {}
+    .set {
+      margin-top: 1.5vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .datePicker {
+        display: flex;
+        width: 80vw;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1.5vh;
+        font-size: 2.5vh;
+        height: 6vh;
+        border: 1px solid;
+
+        .text {
+          line-height: 6vh;
+          width: 30vw;
+        }
+
+        .time {
+          line-height: 6vh;
+          width: 50vw;
+        }
+      }
+    }
   }
 }
 </style>

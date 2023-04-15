@@ -67,3 +67,28 @@
   align-items: center;
   margin-left: 6vw;
 }
+.content .pop .set.data-v-64f3582a {
+  margin-top: 1.5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.content .pop .set .datePicker.data-v-64f3582a {
+  display: flex;
+  width: 80vw;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5vh;
+  font-size: 2.5vh;
+  height: 6vh;
+  border: 1px solid;
+}
+.content .pop .set .datePicker .text.data-v-64f3582a {
+  line-height: 6vh;
+  width: 30vw;
+}
+.content .pop .set .datePicker .time.data-v-64f3582a {
+  line-height: 6vh;
+  width: 50vw;
+}

@@ -13449,149 +13449,6 @@ let Us = new class {
   } }), gs(Us), Us.addInterceptor = D, Us.removeInterceptor = F, Us.interceptObject = M;
 })();
 var Ls = Us;
-const props$i = {
-  props: {
-    // 标签类型info、primary、success、warning、error
-    type: {
-      type: String,
-      default: defprops.tag.type
-    },
-    // 不可用
-    disabled: {
-      type: [Boolean, String],
-      default: defprops.tag.disabled
-    },
-    // 标签的大小，large，medium，mini
-    size: {
-      type: String,
-      default: defprops.tag.size
-    },
-    // tag的形状，circle（两边半圆形）, square（方形，带圆角）
-    shape: {
-      type: String,
-      default: defprops.tag.shape
-    },
-    // 标签文字
-    text: {
-      type: [String, Number],
-      default: defprops.tag.text
-    },
-    // 背景颜色，默认为空字符串，即不处理
-    bgColor: {
-      type: String,
-      default: defprops.tag.bgColor
-    },
-    // 标签字体颜色，默认为空字符串，即不处理
-    color: {
-      type: String,
-      default: defprops.tag.color
-    },
-    // 标签的边框颜色
-    borderColor: {
-      type: String,
-      default: defprops.tag.borderColor
-    },
-    // 关闭按钮图标的颜色
-    closeColor: {
-      type: String,
-      default: defprops.tag.closeColor
-    },
-    // 点击时返回的索引值，用于区分例遍的数组哪个元素被点击了
-    name: {
-      type: [String, Number],
-      default: defprops.tag.name
-    },
-    // // 模式选择，dark|light|plain
-    // mode: {
-    // 	type: String,
-    // 	default: 'light'
-    // },
-    // 镂空时是否填充背景色
-    plainFill: {
-      type: Boolean,
-      default: defprops.tag.plainFill
-    },
-    // 是否镂空
-    plain: {
-      type: Boolean,
-      default: defprops.tag.plain
-    },
-    // 是否可关闭
-    closable: {
-      type: Boolean,
-      default: defprops.tag.closable
-    },
-    // 是否显示
-    show: {
-      type: Boolean,
-      default: defprops.tag.show
-    },
-    // 内置图标，或绝对路径的图片
-    icon: {
-      type: String,
-      default: defprops.tag.icon
-    }
-  }
-};
-const props$h = {
-  props: {
-    // 内置图标名称，或图片路径，建议绝对路径
-    icon: {
-      type: String,
-      default: defprops.empty.icon
-    },
-    // 提示文字
-    text: {
-      type: String,
-      default: defprops.empty.text
-    },
-    // 文字颜色
-    textColor: {
-      type: String,
-      default: defprops.empty.textColor
-    },
-    // 文字大小
-    textSize: {
-      type: [String, Number],
-      default: defprops.empty.textSize
-    },
-    // 图标的颜色
-    iconColor: {
-      type: String,
-      default: defprops.empty.iconColor
-    },
-    // 图标的大小
-    iconSize: {
-      type: [String, Number],
-      default: defprops.empty.iconSize
-    },
-    // 选择预置的图标类型
-    mode: {
-      type: String,
-      default: defprops.empty.mode
-    },
-    //  图标宽度，单位px
-    width: {
-      type: [String, Number],
-      default: defprops.empty.width
-    },
-    // 图标高度，单位px
-    height: {
-      type: [String, Number],
-      default: defprops.empty.height
-    },
-    // 是否显示组件
-    show: {
-      type: Boolean,
-      default: defprops.empty.show
-    },
-    // 组件距离上一个元素之间的距离，默认px单位
-    marginTop: {
-      type: [String, Number],
-      default: defprops.empty.marginTop
-    }
-  }
-};
 var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
 var dayjs_minExports = {};
 var dayjs_min = {
@@ -13810,6 +13667,149 @@ var dayjs_min = {
   });
 })(dayjs_min);
 const dayjs = dayjs_minExports;
+const props$i = {
+  props: {
+    // 标签类型info、primary、success、warning、error
+    type: {
+      type: String,
+      default: defprops.tag.type
+    },
+    // 不可用
+    disabled: {
+      type: [Boolean, String],
+      default: defprops.tag.disabled
+    },
+    // 标签的大小，large，medium，mini
+    size: {
+      type: String,
+      default: defprops.tag.size
+    },
+    // tag的形状，circle（两边半圆形）, square（方形，带圆角）
+    shape: {
+      type: String,
+      default: defprops.tag.shape
+    },
+    // 标签文字
+    text: {
+      type: [String, Number],
+      default: defprops.tag.text
+    },
+    // 背景颜色，默认为空字符串，即不处理
+    bgColor: {
+      type: String,
+      default: defprops.tag.bgColor
+    },
+    // 标签字体颜色，默认为空字符串，即不处理
+    color: {
+      type: String,
+      default: defprops.tag.color
+    },
+    // 标签的边框颜色
+    borderColor: {
+      type: String,
+      default: defprops.tag.borderColor
+    },
+    // 关闭按钮图标的颜色
+    closeColor: {
+      type: String,
+      default: defprops.tag.closeColor
+    },
+    // 点击时返回的索引值，用于区分例遍的数组哪个元素被点击了
+    name: {
+      type: [String, Number],
+      default: defprops.tag.name
+    },
+    // // 模式选择，dark|light|plain
+    // mode: {
+    // 	type: String,
+    // 	default: 'light'
+    // },
+    // 镂空时是否填充背景色
+    plainFill: {
+      type: Boolean,
+      default: defprops.tag.plainFill
+    },
+    // 是否镂空
+    plain: {
+      type: Boolean,
+      default: defprops.tag.plain
+    },
+    // 是否可关闭
+    closable: {
+      type: Boolean,
+      default: defprops.tag.closable
+    },
+    // 是否显示
+    show: {
+      type: Boolean,
+      default: defprops.tag.show
+    },
+    // 内置图标，或绝对路径的图片
+    icon: {
+      type: String,
+      default: defprops.tag.icon
+    }
+  }
+};
+const props$h = {
+  props: {
+    // 内置图标名称，或图片路径，建议绝对路径
+    icon: {
+      type: String,
+      default: defprops.empty.icon
+    },
+    // 提示文字
+    text: {
+      type: String,
+      default: defprops.empty.text
+    },
+    // 文字颜色
+    textColor: {
+      type: String,
+      default: defprops.empty.textColor
+    },
+    // 文字大小
+    textSize: {
+      type: [String, Number],
+      default: defprops.empty.textSize
+    },
+    // 图标的颜色
+    iconColor: {
+      type: String,
+      default: defprops.empty.iconColor
+    },
+    // 图标的大小
+    iconSize: {
+      type: [String, Number],
+      default: defprops.empty.iconSize
+    },
+    // 选择预置的图标类型
+    mode: {
+      type: String,
+      default: defprops.empty.mode
+    },
+    //  图标宽度，单位px
+    width: {
+      type: [String, Number],
+      default: defprops.empty.width
+    },
+    // 图标高度，单位px
+    height: {
+      type: [String, Number],
+      default: defprops.empty.height
+    },
+    // 是否显示组件
+    show: {
+      type: Boolean,
+      default: defprops.empty.show
+    },
+    // 组件距离上一个元素之间的距离，默认px单位
+    marginTop: {
+      type: [String, Number],
+      default: defprops.empty.marginTop
+    }
+  }
+};
 const props$g = {
   props: {
     // 列表数组，元素可为字符串，如为对象可通过keyName指定目标属性名

@@ -7,7 +7,8 @@ const store = createStore({
       info: {
         userName: '未登录',
         avatar: '/static/avatar.png',
-        openId: ''
+        openId: '',
+        carId: []
       }
     }
   }

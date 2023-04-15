@@ -128,7 +128,8 @@ export default {
           maintenance_km: this.inputType[2].value,
           toastTime: '',
           imgUrls: imgUrls,
-          createTime: dayjs().format('YYYY-MM-DD HH:MM')
+          createTime: dayjs().format('YYYY-MM-DD HH:MM'),
+          creater: this.$store.state.loginInfo.info.openId
         })
         .then((res) => {
           uni.showToast({

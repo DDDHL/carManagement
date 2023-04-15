@@ -12,15 +12,29 @@ const _sfc_main = {
       popShow: false,
       maintenance_km: 0,
       km: 0,
-      license: ""
+      license: "",
+      date: "2023-4-15",
+      time: "19:00"
     };
   },
   onLoad() {
     this.carInfo = this.$store.state.clickItem;
+    console.log(this.carInfo);
     this.flashData();
+    if (!this.carInfo.toastTime) {
+      this.date = common_vendor.dayjs().format("YYYY-MM-DD");
+      this.time = common_vendor.dayjs().format("HH:MM");
+    } else {
+      this.time = common_vendor.dayjs(this.carInfo.toastTime).format("HH:MM");
+      this.date = common_vendor.dayjs(this.carInfo.toastTime).format("YYYY-MM-DD");
+    }
   },
   methods: {
-    async getData() {
+    bindDateChange(e) {
+      this.date = e.detail.value;
+    },
+    bindTimeChange(e) {
+      this.time = e.detail.value;
     },
     flashData() {
       this.maintenance_km = this.carInfo.maintenance_km;
@@ -66,9 +80,27 @@ const _sfc_main = {
       this.type = type;
       switch (type) {
         case "set":
-          this.title = "设置定时提醒";
-          this.content = "set";
-          this.popShow = true;
+          common_vendor.index.requestSubscribeMessage({
+            tmplIds: ["yHEPvG95v7yLi2zFgWykNGhxNMLaeLEE8ku9px4RynY"]
+          }).then((res) => {
+            let isOk = false;
+            for (let key in res) {
+              if (res[key] == "accept")
+                isOk = true;
+              if (res[key == "fail"])
+                isOk = false;
+            }
+            if (isOk) {
+              this.title = "设置定时提醒";
+              this.content = "set";
+              this.popShow = true;
+            } else {
+              common_vendor.index.showModal({
+                content: "请订阅消息并勾选不在提示！",
+                showCancel: false
+              });
+            }
+          });
           break;
         case "delete":
           this.title = "删除操作";
@@ -204,14 +236,21 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       border: "surround",
       modelValue: $data.maintenance_km
     })
-  } : {}, {
-    y: common_vendor.o($options.save),
-    z: common_vendor.p({
+  } : {
+    y: common_vendor.t($data.date),
+    z: $data.date,
+    A: common_vendor.o((...args) => $options.bindDateChange && $options.bindDateChange(...args)),
+    B: common_vendor.t($data.time),
+    C: $data.time,
+    D: common_vendor.o((...args) => $options.bindTimeChange && $options.bindTimeChange(...args))
+  }, {
+    E: common_vendor.o($options.save),
+    F: common_vendor.p({
       type: "success",
       text: "保存设置"
     }),
-    A: common_vendor.o(($event) => $data.popShow = false),
-    B: common_vendor.p({
+    G: common_vendor.o(($event) => $data.popShow = false),
+    H: common_vendor.p({
       show: $data.popShow,
       mode: "bottom",
       round: "20"

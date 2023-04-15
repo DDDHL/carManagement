@@ -12,13 +12,11 @@
       <view class="btn" v-if="!$store.state.loginInfo.isLogin">
         <u-button type="success" text="登录" @click="login"></u-button>
       </view>
-      <u-button type="success" text="获取订阅权限" @click="test"></u-button>
-      <u-button type="success" text="发送" @click="send"></u-button>
     </view>
   </view>
 </template>
+
 <script>
-import { sendMsg, getPermissions } from '@/utils/publicMethods'
 export default {
   data () {
     return {
@@ -29,40 +27,13 @@ export default {
     uni.stopPullDownRefresh();
   },
   methods: {
-    send () {
-      sendMsg(this.$store.state.loginInfo.info.openId)
-    },
-    test () {
-      uni.requestSubscribeMessage({
-        tmplIds: ['yHEPvG95v7yLi2zFgWykNGhxNMLaeLEE8ku9px4RynY']
-      }).then(res => {
-        let isOk = false
-        for (let key in res) {
-          if (res[key] == "accept") isOk = true
-          if (res[key == "fail"]) isOk = false
-        }
-        if (isOk) {
-          uni.showToast({
-            title: "订阅成功",
-            icon: "none"
-          })
-        } else {
-          uni.showModal({
-            content: '获取权限失败',
-            showCancel: false
-          })
-        }
-      })
-    },
     async login () {
       uni.showLoading({
         title: '登录中',
         mask: true
       });
       this.getInfo().then(() => {
-        // 成功获取所有信息
-        uni.hideLoading()
-        console.log(this.$store.state.loginInfo)
+        this.adduser()
       }).catch((err) => {
         // 错误
         uni.hideLoading()
@@ -71,6 +42,44 @@ export default {
           showCancel: false
         })
       })
+    },
+    async adduser () {
+      const db = uniCloud.database();
+      let res = await db.collection("userInfo").where(`openId=="${this.$store.state.loginInfo.info.openId}"`).get()
+      if (res.result.errCode == 0 && res.result.data.length == 0) {
+        console.log('没有用户信息： 新增用户')
+        let a = db.collection("userInfo").add({
+          openId: this.$store.state.loginInfo.info.openId,
+          carId: []
+        });
+        if (res.result.errCode == 0) {
+          console.log(this.$store.state.loginInfo)
+          // 成功获取所有信息
+          uni.hideLoading()
+          uni.showToast({
+            title: "登录成功",
+            icon: "success"
+          })
+        } else {
+          // 错误
+          uni.hideLoading()
+          uni.showModal({
+            content: '登录失败！',
+            showCancel: false
+          })
+        }
+      } else {
+        // 有信息，保存到store
+        console.log('有信息， 保存到store')
+        console.log(this.$store.state.loginInfo)
+        this.$store.state.loginInfo.info.carId = res.result.data[0].carId
+        // 成功获取所有信息
+        uni.hideLoading()
+        uni.showToast({
+          title: "登录成功",
+          icon: "success"
+        })
+      }
     },
     getInfo () {
       return new Promise((resolve, reject) => {
