@@ -57,7 +57,7 @@ const _sfc_main = {
       this.setType = "已设置定时提醒";
     } else {
       this.date = common_vendor.dayjs().format("YYYY-MM-DD");
-      this.index = common_vendor.dayjs().format("HH");
+      this.index = Number(common_vendor.dayjs().format("HH"));
     }
   },
   methods: {

@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "用户中心",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "u-button": "../../node-modules/uview-plus/components/u-button/u-button",
+    "u-icon": "../../node-modules/uview-plus/components/u-icon/u-icon",
+    "u-grid-item": "../../node-modules/uview-plus/components/u-grid-item/u-grid-item",
+    "u-grid": "../../node-modules/uview-plus/components/u-grid/u-grid"
+  }
+}

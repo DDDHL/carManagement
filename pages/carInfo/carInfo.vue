@@ -128,7 +128,7 @@ export default {
       this.setType = '已设置定时提醒'
     } else {
       this.date = dayjs().format('YYYY-MM-DD')
-      this.index = dayjs().format('HH')
+      this.index = Number(dayjs().format('HH'))
     }
   },
   methods: {

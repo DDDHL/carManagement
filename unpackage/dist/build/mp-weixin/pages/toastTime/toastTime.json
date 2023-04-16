@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-swipe-action-item": "../../node-modules/uview-plus/components/u-swipe-action-item/u-swipe-action-item",
+    "u-swipe-action": "../../node-modules/uview-plus/components/u-swipe-action/u-swipe-action",
+    "u-empty": "../../node-modules/uview-plus/components/u-empty/u-empty"
+  }
+}

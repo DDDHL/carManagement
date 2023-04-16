@@ -1,0 +1,1 @@
+"use strict";const e=require("../../common/vendor.js"),t={data:()=>({})};if(!Array){e.resolveComponent("u-empty")()}Math;const o=e._export_sfc(t,[["render",function(t,o,n,r,a,c){return{a:e.p({show:!0,mode:"list",icon:"/static/no.png",text:"暂未开发",textSize:"2vh",marginTop:"25vh"})}}],["__scopeId","data-v-55deac63"]]);wx.createPage(o);

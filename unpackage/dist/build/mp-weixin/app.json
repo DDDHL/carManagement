@@ -1,0 +1,43 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/add/add",
+    "pages/carInfo/carInfo",
+    "pages/user/user",
+    "pages/toastTime/toastTime",
+    "pages/myCar/myCar"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/home.png",
+        "selectedIconPath": "static/homeSelect.png",
+        "text": "主页"
+      },
+      {
+        "pagePath": "pages/add/add",
+        "iconPath": "static/add.png",
+        "selectedIconPath": "static/addSelect.png",
+        "text": "新增"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "static/user.png",
+        "selectedIconPath": "static/userSelect.png",
+        "text": "用户"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

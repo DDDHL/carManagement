@@ -1,0 +1,1 @@
+"use strict";const o=require("../../utils/publicMethods.js"),e=require("../../common/vendor.js"),n={data:()=>({}),onShow(){this.$store.state.loginInfo.isLogin||o.loginCheck()},components:{imgUpload:()=>"../../component/imgUpload.js"}};if(!Array){e.resolveComponent("imgUpload")()}const t=e._export_sfc(n,[["render",function(o,e,n,t,r,s){return{}}]]);wx.createPage(t);
