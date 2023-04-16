@@ -42,6 +42,11 @@
   margin-top: -5vh;
   background-color: #fff;
 }
+.content .center .grid-text.data-v-0f7520f0 {
+  font-size: 2.5vh;
+  color: #909399;
+  padding: 10rpx 0 20rpx 0rpx;
+}
 .content .center .btn.data-v-0f7520f0 {
   width: 70vw;
   margin-left: 15vw;

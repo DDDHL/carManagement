@@ -1,0 +1,30 @@
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.content.data-v-a7d360ef {
+  width: 100vw;
+}
+.content .u-page.data-v-a7d360ef {
+  padding: 0;
+}
+.content .u-demo-block__title.data-v-a7d360ef {
+  padding: 10px 0 2px 15px;
+}
+.content .swipe-action__content.data-v-a7d360ef {
+  padding: 25rpx 0;
+}
+.content .swipe-action__content__text.data-v-a7d360ef {
+  font-size: 15px;
+  color: #303133;
+  padding-left: 30rpx;
+}

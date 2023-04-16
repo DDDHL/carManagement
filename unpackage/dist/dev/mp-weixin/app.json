@@ -3,7 +3,9 @@
     "pages/index/index",
     "pages/add/add",
     "pages/carInfo/carInfo",
-    "pages/user/user"
+    "pages/user/user",
+    "pages/toastTime/toastTime",
+    "pages/myCar/myCar"
   ],
   "window": {
     "navigationBarTextStyle": "black",

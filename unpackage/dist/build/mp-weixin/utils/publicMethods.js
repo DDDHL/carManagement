@@ -1,0 +1,1 @@
+"use strict";const e=require("../common/vendor.js");exports.loginCheck=()=>{e.index.showModal({content:"请先登录后再使用该功能",showCancel:!1,success:s=>{s.confirm&&e.index.switchTab({url:"/pages/user/user"})}})};

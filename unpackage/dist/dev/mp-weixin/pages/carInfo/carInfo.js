@@ -14,19 +14,50 @@ const _sfc_main = {
       km: 0,
       license: "",
       date: "2023-4-15",
-      time: "19:00"
+      index: 0,
+      array: [
+        "00:00",
+        "01:00",
+        "02:00",
+        "03:00",
+        "04:00",
+        "05:00",
+        "06:00",
+        "07:00",
+        "08:00",
+        "09:00",
+        "10:00",
+        "11:00",
+        "12:00",
+        "13:00",
+        "14:00",
+        "15:00",
+        "16:00",
+        "17:00",
+        "18:00",
+        "19:00",
+        "20:00",
+        "21:00",
+        "22:00",
+        "23:00"
+      ],
+      setType: "未设置提醒",
+      startTime: ""
     };
   },
   onLoad() {
     this.carInfo = this.$store.state.clickItem;
     console.log(this.carInfo);
+    this.startTime = common_vendor.dayjs().format("YYYY-MM-DD");
     this.flashData();
-    if (!this.carInfo.toastTime) {
-      this.date = common_vendor.dayjs().format("YYYY-MM-DD");
-      this.time = common_vendor.dayjs().format("HH:MM");
+    let res = this.$store.state.loginInfo.info.carId.find((item) => item.id == this.carInfo._id);
+    if (res) {
+      this.date = common_vendor.dayjs(res.time).format("YYYY-MM-DD");
+      this.index = common_vendor.dayjs(res.time).format("HH");
+      this.setType = "已设置定时提醒";
     } else {
-      this.time = common_vendor.dayjs(this.carInfo.toastTime).format("HH:MM");
-      this.date = common_vendor.dayjs(this.carInfo.toastTime).format("YYYY-MM-DD");
+      this.date = common_vendor.dayjs().format("YYYY-MM-DD");
+      this.index = common_vendor.dayjs().format("HH");
     }
   },
   methods: {
@@ -34,7 +65,7 @@ const _sfc_main = {
       this.date = e.detail.value;
     },
     bindTimeChange(e) {
-      this.time = e.detail.value;
+      this.index = e.detail.value;
     },
     flashData() {
       this.maintenance_km = this.carInfo.maintenance_km;
@@ -61,6 +92,17 @@ const _sfc_main = {
           km: this.km,
           license: this.license
         });
+        for (let i = 0; i < this.$store.state.loginInfo.info.carId.length; i++) {
+          if (this.$store.state.loginInfo.info.carId[i].id == this.carInfo._id) {
+            this.$store.state.loginInfo.info.carId[i].km = this.km;
+            this.$store.state.loginInfo.info.carId[i].license = this.license;
+            break;
+          }
+        }
+        await db.collection("userInfo").where(`
+        openId=="${this.$store.state.loginInfo.info.openId}"`).update({
+          carId: this.$store.state.loginInfo.info.carId
+        });
         common_vendor.index.hideLoading();
         this.carInfo.maintenance_km = this.maintenance_km;
         this.carInfo.km = this.maintenance_km;
@@ -70,6 +112,39 @@ const _sfc_main = {
           duration: 1500
         });
         this.popShow = false;
+      } else {
+        common_vendor.index.showLoading({
+          title: "设置定时中",
+          mask: true
+        });
+        let time = this.date + " " + this.array[this.index];
+        this.$store.state.loginInfo.info.carId.push({
+          time,
+          id: this.carInfo._id,
+          openId: this.$store.state.loginInfo.info.openId,
+          license: this.carInfo.license,
+          km: this.carInfo.km,
+          text: "定时提醒保养"
+        });
+        let res = await db.collection("userInfo").where(`
+openId=="${this.$store.state.loginInfo.info.openId}"`).update({
+          carId: this.$store.state.loginInfo.info.carId
+        });
+        if (res.result.errCode == 0) {
+          common_vendor.index.hideLoading();
+          common_vendor.index.showToast({
+            title: "设置定时成功",
+            duration: 1500
+          });
+          this.setType = "已设置定时提醒";
+        } else {
+          common_vendor.index.hideLoading();
+          common_vendor.index.showToast({
+            title: "设置定时失败",
+            duration: 1500,
+            icon: "error"
+          });
+        }
       }
     },
     toast(type) {
@@ -121,10 +196,6 @@ const _sfc_main = {
       });
       this.deleteData();
       this.show = false;
-    },
-    setToastTime() {
-    },
-    updateData() {
     },
     async deleteData() {
       const db = common_vendor.Ls.database();
@@ -239,18 +310,22 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   } : {
     y: common_vendor.t($data.date),
     z: $data.date,
-    A: common_vendor.o((...args) => $options.bindDateChange && $options.bindDateChange(...args)),
-    B: common_vendor.t($data.time),
-    C: $data.time,
-    D: common_vendor.o((...args) => $options.bindTimeChange && $options.bindTimeChange(...args))
+    A: $data.startTime,
+    B: common_vendor.o((...args) => $options.bindDateChange && $options.bindDateChange(...args)),
+    C: common_vendor.t($data.array[$data.index]),
+    D: common_vendor.o((...args) => $options.bindTimeChange && $options.bindTimeChange(...args)),
+    E: $data.index,
+    F: $data.array,
+    G: common_vendor.t($data.setType),
+    H: common_vendor.s($data.setType === "未设置提醒" ? "color:red;" : "color:green;")
   }, {
-    E: common_vendor.o($options.save),
-    F: common_vendor.p({
+    I: common_vendor.o($options.save),
+    J: common_vendor.p({
       type: "success",
       text: "保存设置"
     }),
-    G: common_vendor.o(($event) => $data.popShow = false),
-    H: common_vendor.p({
+    K: common_vendor.o(($event) => $data.popShow = false),
+    L: common_vendor.p({
       show: $data.popShow,
       mode: "bottom",
       round: "20"

@@ -59,7 +59,7 @@
               日期：
             </view>
             <view class="time">
-              <picker mode="date" :value="date" @change="bindDateChange">
+              <picker mode="date" :value="date" :start="startTime" @change="bindDateChange">
                 <view class="uni-input">{{date}}</view>
               </picker>
             </view>
@@ -69,8 +69,8 @@
               时间：
             </view>
             <view class="time">
-              <picker mode="time" :value="time" @change="bindTimeChange">
-                <view class="uni-input">{{time}}</view>
+              <picker @change="bindTimeChange" :value="index" :range="array">
+                <view class="uni-input">{{array[index]}}</view>
               </picker>
             </view>
           </view>
@@ -78,8 +78,8 @@
             <view class="text">
               状态：
             </view>
-            <view class="time">
-              你好
+            <view class="time" :style="setType==='未设置提醒'?'color:red;':'color:green;'">
+              {{setType}}
             </view>
           </view>
         </view>
@@ -107,19 +107,28 @@ export default {
       km: 0,
       license: '',
       date: '2023-4-15',
-      time: '19:00'
+      index: 0,
+      array: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00',
+        '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00',
+        '23:00'
+      ],
+      setType: '未设置提醒',
+      startTime: ''
     };
   },
   onLoad () {
     this.carInfo = this.$store.state.clickItem
     console.log(this.carInfo)
+    this.startTime = dayjs().format('YYYY-MM-DD')
     this.flashData()
-    if (!this.carInfo.toastTime) {
-      this.date = dayjs().format('YYYY-MM-DD')
-      this.time = dayjs().format('HH:MM')
+    let res = this.$store.state.loginInfo.info.carId.find(item => item.id == this.carInfo._id)
+    if (res) {
+      this.date = dayjs(res.time).format('YYYY-MM-DD')
+      this.index = dayjs(res.time).format('HH')
+      this.setType = '已设置定时提醒'
     } else {
-      this.time = dayjs(this.carInfo.toastTime).format('HH:MM')
-      this.date = dayjs(this.carInfo.toastTime).format('YYYY-MM-DD')
+      this.date = dayjs().format('YYYY-MM-DD')
+      this.index = dayjs().format('HH')
     }
   },
   methods: {
@@ -127,7 +136,7 @@ export default {
       this.date = e.detail.value
     },
     bindTimeChange (e) {
-      this.time = e.detail.value
+      this.index = e.detail.value
     },
     flashData () {
       this.maintenance_km = this.carInfo.maintenance_km
@@ -155,6 +164,17 @@ export default {
           km: this.km,
           license: this.license
         })
+        for (let i = 0; i < this.$store.state.loginInfo.info.carId.length; i++) {
+          if (this.$store.state.loginInfo.info.carId[i].id == this.carInfo._id) {
+            this.$store.state.loginInfo.info.carId[i].km = this.km
+            this.$store.state.loginInfo.info.carId[i].license = this.license
+            break
+          }
+        }
+        await db.collection('userInfo').where(`
+        openId=="${this.$store.state.loginInfo.info.openId}"`).update({
+          carId: this.$store.state.loginInfo.info.carId
+        })
         uni.hideLoading()
         this.carInfo.maintenance_km = this.maintenance_km
         this.carInfo.km = this.maintenance_km
@@ -166,6 +186,39 @@ export default {
         this.popShow = false
       } else {
         // 设置提醒时间
+        uni.showLoading({
+          title: '设置定时中',
+          mask: true
+        })
+        let time = this.date + ' ' + this.array[this.index]
+        this.$store.state.loginInfo.info.carId.push({
+          time: time,
+          id: this.carInfo._id,
+          openId: this.$store.state.loginInfo.info.openId,
+          license: this.carInfo.license,
+          km: this.carInfo.km,
+          text: '定时提醒保养'
+        })
+        // 存入定时提醒时间
+        let res = await db.collection('userInfo').where(`
+openId=="${this.$store.state.loginInfo.info.openId}"`).update({
+          carId: this.$store.state.loginInfo.info.carId
+        })
+        if (res.result.errCode == 0) {
+          uni.hideLoading()
+          uni.showToast({
+            title: '设置定时成功',
+            duration: 1500,
+          })
+          this.setType = '已设置定时提醒'
+        } else {
+          uni.hideLoading()
+          uni.showToast({
+            title: '设置定时失败',
+            duration: 1500,
+            icon: 'error'
+          })
+        }
       }
     },
     toast (type) {
@@ -215,12 +268,6 @@ export default {
       })
       this.deleteData()
       this.show = false
-    },
-    setToastTime () {
-
-    },
-    updateData () {
-
     },
     async deleteData () {
       const db = uniCloud.database();
@@ -327,6 +374,8 @@ export default {
         font-size: 2.5vh;
         height: 6vh;
         border: 1px solid;
+        border-radius: 1vh;
+        background-color: #f9f9f9;
 
         .text {
           line-height: 6vh;

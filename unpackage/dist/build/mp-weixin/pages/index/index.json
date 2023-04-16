@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "主页",
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "u-tag": "../../node-modules/uview-plus/components/u-tag/u-tag",
     "u-empty": "../../node-modules/uview-plus/components/u-empty/u-empty"

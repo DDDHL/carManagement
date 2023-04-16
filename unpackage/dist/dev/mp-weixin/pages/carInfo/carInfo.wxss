@@ -83,6 +83,8 @@
   font-size: 2.5vh;
   height: 6vh;
   border: 1px solid;
+  border-radius: 1vh;
+  background-color: #f9f9f9;
 }
 .content .pop .set .datePicker .text.data-v-64f3582a {
   line-height: 6vh;

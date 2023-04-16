@@ -2,12 +2,37 @@
 const common_vendor = require("../../common/vendor.js");
 const _sfc_main = {
   data() {
-    return {};
+    return {
+      list: [
+        {
+          name: "clock",
+          title: "定时提醒"
+        },
+        {
+          name: "file-text",
+          title: "我发布的"
+        }
+      ]
+    };
   },
   onPullDownRefresh() {
     common_vendor.index.stopPullDownRefresh();
   },
   methods: {
+    clickIcon(name) {
+      switch (this.list[name].title) {
+        case "定时提醒":
+          common_vendor.index.navigateTo({
+            url: "/pages/toastTime/toastTime"
+          });
+          break;
+        case "我发布的":
+          common_vendor.index.navigateTo({
+            url: "/pages/myCar/myCar"
+          });
+          break;
+      }
+    },
     async login() {
       common_vendor.index.showLoading({
         title: "登录中",
@@ -105,11 +130,17 @@ const _sfc_main = {
 };
 if (!Array) {
   const _easycom_u_button2 = common_vendor.resolveComponent("u-button");
-  _easycom_u_button2();
+  const _easycom_u_icon2 = common_vendor.resolveComponent("u-icon");
+  const _easycom_u_grid_item2 = common_vendor.resolveComponent("u-grid-item");
+  const _easycom_u_grid2 = common_vendor.resolveComponent("u-grid");
+  (_easycom_u_button2 + _easycom_u_icon2 + _easycom_u_grid_item2 + _easycom_u_grid2)();
 }
 const _easycom_u_button = () => "../../node-modules/uview-plus/components/u-button/u-button.js";
+const _easycom_u_icon = () => "../../node-modules/uview-plus/components/u-icon/u-icon.js";
+const _easycom_u_grid_item = () => "../../node-modules/uview-plus/components/u-grid-item/u-grid-item.js";
+const _easycom_u_grid = () => "../../node-modules/uview-plus/components/u-grid/u-grid.js";
 if (!Math) {
-  _easycom_u_button();
+  (_easycom_u_button + _easycom_u_icon + _easycom_u_grid_item + _easycom_u_grid)();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
@@ -122,7 +153,29 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       type: "success",
       text: "登录"
     })
-  } : {});
+  } : {
+    f: common_vendor.f($data.list, (listItem, listIndex, i0) => {
+      return {
+        a: "0f7520f0-3-" + i0 + "," + ("0f7520f0-2-" + i0),
+        b: common_vendor.p({
+          customStyle: {
+            paddingTop: 60 + "rpx"
+          },
+          name: listItem.name,
+          size: 33
+        }),
+        c: common_vendor.t(listItem.title),
+        d: listIndex,
+        e: "0f7520f0-2-" + i0 + ",0f7520f0-1"
+      };
+    }),
+    g: common_vendor.o($options.clickIcon),
+    h: common_vendor.p({
+      border: false,
+      col: "2",
+      border: true
+    })
+  });
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-0f7520f0"], ["__file", "D:/object2/carManagement/pages/user/user.vue"]]);
 wx.createPage(MiniProgramPage);

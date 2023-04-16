@@ -11012,6 +11012,20 @@ const pages = [
       navigationBarTitleText: "用户中心",
       enablePullDownRefresh: true
     }
+  },
+  {
+    path: "pages/toastTime/toastTime",
+    style: {
+      navigationBarTitleText: "",
+      enablePullDownRefresh: false
+    }
+  },
+  {
+    path: "pages/myCar/myCar",
+    style: {
+      navigationBarTitleText: "",
+      enablePullDownRefresh: false
+    }
   }
 ];
 const globalStyle = {
@@ -11342,7 +11356,7 @@ class S {
 function b(e2) {
   return e2 && "string" == typeof e2 ? JSON.parse(e2) : e2;
 }
-const k = true, I = "mp-weixin", C = b([]), A = I, P = b('{\n    "address": [\n        "127.0.0.1",\n        "172.20.10.3"\n    ],\n    "debugPort": 9000,\n    "initialLaunchType": "local",\n    "servePort": 7000,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/kaifa/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), E = b('[{"provider":"aliyun","spaceName":"car-management","spaceId":"mp-48022fba-a27d-4bc8-be67-a7d2356624bc","clientSecret":"Zqg5QbtJLzInsClsKPMK2A==","endpoint":"https://api.next.bspapp.com"}]') || [];
+const k = true, I = "mp-weixin", C = b([]), A = I, P = b('{\n    "address": [\n        "127.0.0.1",\n        "172.20.10.5"\n    ],\n    "debugPort": 9000,\n    "initialLaunchType": "local",\n    "servePort": 7000,\n    "skipFiles": [\n        "<node_internals>/**",\n        "D:/kaifa/HBuilderX/plugins/unicloud/**/*.js"\n    ]\n}\n'), E = b('[{"provider":"aliyun","spaceName":"car-management","spaceId":"mp-48022fba-a27d-4bc8-be67-a7d2356624bc","clientSecret":"Zqg5QbtJLzInsClsKPMK2A==","endpoint":"https://api.next.bspapp.com"}]') || [];
 let x = "";
 try {
   x = "__UNI__F6D80D9";
@@ -13667,7 +13681,7 @@ var dayjs_min = {
   });
 })(dayjs_min);
 const dayjs = dayjs_minExports;
-const props$i = {
+const props$m = {
   props: {
     // 标签类型info、primary、success、warning、error
     type: {
@@ -13751,7 +13765,7 @@ const props$i = {
     }
   }
 };
-const props$h = {
+const props$l = {
   props: {
     // 内置图标名称，或图片路径，建议绝对路径
     icon: {
@@ -13810,7 +13824,7 @@ const props$h = {
     }
   }
 };
-const props$g = {
+const props$k = {
   props: {
     // 列表数组，元素可为字符串，如为对象可通过keyName指定目标属性名
     list: {
@@ -13935,7 +13949,7 @@ const props$g = {
     }
   }
 };
-const props$f = {
+const props$j = {
   props: {
     color: {
       type: String,
@@ -14006,7 +14020,7 @@ const openType = {
     }
   }
 };
-const props$e = {
+const props$i = {
   props: {
     // 是否细边框
     hairline: {
@@ -14158,7 +14172,7 @@ const props$e = {
     }
   }
 };
-const props$d = {
+const props$h = {
   props: {
     // 是否展示modal
     show: {
@@ -14242,7 +14256,7 @@ const props$d = {
     }
   }
 };
-const props$c = {
+const props$g = {
   props: {
     // 绑定的值
     modelValue: {
@@ -14428,7 +14442,7 @@ const props$c = {
     }
   }
 };
-const props$b = {
+const props$f = {
   props: {
     // 是否展示弹窗
     show: {
@@ -14721,7 +14735,7 @@ const icons = {
   "uicon-zh": "",
   "uicon-en": ""
 };
-const props$a = {
+const props$e = {
   props: {
     // 图标类名
     name: {
@@ -14807,6 +14821,162 @@ const props$a = {
     stop: {
       type: Boolean,
       default: defprops.icon.stop
+    }
+  }
+};
+const props$d = {
+  props: {
+    // 宫格的name
+    name: {
+      type: [String, Number, null],
+      default: defprops.gridItem.name
+    },
+    // 背景颜色
+    bgColor: {
+      type: String,
+      default: defprops.gridItem.bgColor
+    }
+  }
+};
+const props$c = {
+  props: {
+    // 分成几列
+    col: {
+      type: [String, Number],
+      default: defprops.grid.col
+    },
+    // 是否显示边框
+    border: {
+      type: Boolean,
+      default: defprops.grid.border
+    },
+    // 宫格对齐方式，表现为数量少的时候，靠左，居中，还是靠右
+    align: {
+      type: String,
+      default: defprops.grid.align
+    }
+  }
+};
+const MIN_DISTANCE = 10;
+function getDirection(x2, y2) {
+  if (x2 > y2 && x2 > MIN_DISTANCE) {
+    return "horizontal";
+  }
+  if (y2 > x2 && y2 > MIN_DISTANCE) {
+    return "vertical";
+  }
+  return "";
+}
+const touch = {
+  methods: {
+    getTouchPoint(e2) {
+      if (!e2) {
+        return {
+          x: 0,
+          y: 0
+        };
+      }
+      if (e2.touches && e2.touches[0]) {
+        return {
+          x: e2.touches[0].pageX,
+          y: e2.touches[0].pageY
+        };
+      }
+      if (e2.changedTouches && e2.changedTouches[0]) {
+        return {
+          x: e2.changedTouches[0].pageX,
+          y: e2.changedTouches[0].pageY
+        };
+      }
+      return {
+        x: e2.clientX || 0,
+        y: e2.clientY || 0
+      };
+    },
+    resetTouchStatus() {
+      this.direction = "";
+      this.deltaX = 0;
+      this.deltaY = 0;
+      this.offsetX = 0;
+      this.offsetY = 0;
+    },
+    touchStart(event) {
+      this.resetTouchStatus();
+      const touch2 = this.getTouchPoint(event);
+      this.startX = touch2.x;
+      this.startY = touch2.y;
+    },
+    touchMove(event) {
+      const touch2 = this.getTouchPoint(event);
+      this.deltaX = touch2.x - this.startX;
+      this.deltaY = touch2.y - this.startY;
+      this.offsetX = Math.abs(this.deltaX);
+      this.offsetY = Math.abs(this.deltaY);
+      this.direction = this.direction || getDirection(this.offsetX, this.offsetY);
+    }
+  }
+};
+const props$b = {
+  props: {
+    // 控制打开或者关闭
+    show: {
+      type: Boolean,
+      default: defprops.swipeActionItem.show
+    },
+    // 标识符，如果是v-for，可用index索引值
+    name: {
+      type: [String, Number],
+      default: defprops.swipeActionItem.name
+    },
+    // 是否禁用
+    disabled: {
+      type: Boolean,
+      default: defprops.swipeActionItem.disabled
+    },
+    // 是否自动关闭其他swipe按钮组
+    autoClose: {
+      type: Boolean,
+      default: defprops.swipeActionItem.autoClose
+    },
+    // 滑动距离阈值，只有大于此值，才被认为是要打开菜单
+    threshold: {
+      type: Number,
+      default: defprops.swipeActionItem.threshold
+    },
+    // 右侧按钮内容
+    options: {
+      type: Array,
+      default() {
+        return index$1.$u.props.swipeActionItem.rightOptions;
+      }
+    },
+    // 动画过渡时间，单位ms
+    duration: {
+      type: [String, Number],
+      default: defprops.swipeActionItem.duration
+    }
+  }
+};
+const wxs = {
+  methods: {
+    // 关闭时执行
+    closeHandler() {
+      this.status = "close";
+    },
+    setState(status) {
+      this.status = status;
+    },
+    closeOther() {
+      this.parent && this.parent.closeOther(this);
+    }
+  }
+};
+const props$a = {
+  props: {
+    // 是否自动关闭其他swipe按钮组
+    autoClose: {
+      type: Boolean,
+      default: defprops.swipeAction.autoClose
     }
   }
 };
@@ -15436,27 +15606,33 @@ exports.n = n$1;
 exports.o = o$1;
 exports.openType = openType;
 exports.p = p$1;
-exports.props = props$i;
-exports.props$1 = props$h;
-exports.props$10 = props$8;
-exports.props$11 = props$7;
-exports.props$12 = props$6;
-exports.props$13 = props$5;
-exports.props$14 = props$4;
-exports.props$15 = props$3;
-exports.props$16 = props$2;
-exports.props$17 = props$1;
-exports.props$18 = props;
-exports.props$2 = props$g;
-exports.props$3 = props$f;
-exports.props$4 = props$e;
-exports.props$5 = props$d;
-exports.props$6 = props$c;
-exports.props$7 = props$b;
-exports.props$8 = props$a;
-exports.props$9 = props$9;
+exports.props = props$m;
+exports.props$1 = props$l;
+exports.props$10 = props$c;
+exports.props$11 = props$b;
+exports.props$12 = props$a;
+exports.props$13 = props$9;
+exports.props$14 = props$8;
+exports.props$15 = props$7;
+exports.props$16 = props$6;
+exports.props$17 = props$5;
+exports.props$18 = props$4;
+exports.props$19 = props$3;
+exports.props$2 = props$k;
+exports.props$20 = props$2;
+exports.props$21 = props$1;
+exports.props$22 = props;
+exports.props$3 = props$j;
+exports.props$4 = props$i;
+exports.props$5 = props$h;
+exports.props$6 = props$g;
+exports.props$7 = props$f;
+exports.props$8 = props$e;
+exports.props$9 = props$d;
 exports.resolveComponent = resolveComponent;
 exports.s = s$1;
 exports.t = t$1;
+exports.touch = touch;
 exports.transition = transition;
 exports.wx$1 = wx$1;
+exports.wxs = wxs;

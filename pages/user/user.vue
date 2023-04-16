@@ -12,6 +12,14 @@
       <view class="btn" v-if="!$store.state.loginInfo.isLogin">
         <u-button type="success" text="登录" @click="login"></u-button>
       </view>
+      <view class="grid" v-else>
+        <u-grid :border="false" col="2" border @click="clickIcon">
+          <u-grid-item v-for="(listItem,listIndex) in list" :key="listIndex">
+            <u-icon :customStyle="{paddingTop:60+'rpx'}" :name="listItem.name" :size="33"></u-icon>
+            <text class="grid-text">{{listItem.title}}</text>
+          </u-grid-item>
+        </u-grid>
+      </view>
     </view>
   </view>
 </template>
@@ -20,13 +28,34 @@
 export default {
   data () {
     return {
-
+      list: [{
+        name: 'clock',
+        title: '定时提醒'
+      },
+      {
+        name: 'file-text',
+        title: '我发布的'
+      }],
     };
   },
   onPullDownRefresh () {
     uni.stopPullDownRefresh();
   },
   methods: {
+    clickIcon (name) {
+      switch (this.list[name].title) {
+        case '定时提醒':
+          uni.navigateTo({
+            url: '/pages/toastTime/toastTime'
+          })
+          break
+        case '我发布的':
+          uni.navigateTo({
+            url: '/pages/myCar/myCar'
+          })
+          break
+      }
+    },
     async login () {
       uni.showLoading({
         title: '登录中',
@@ -45,7 +74,8 @@ export default {
     },
     async adduser () {
       const db = uniCloud.database();
-      let res = await db.collection("userInfo").where(`openId=="${this.$store.state.loginInfo.info.openId}"`).get()
+      let res = await db.collection("userInfo").where(`openId=="${this.$store.state.loginInfo.info.openId}"`)
+        .get()
       if (res.result.errCode == 0 && res.result.data.length == 0) {
         console.log('没有用户信息： 新增用户')
         let a = db.collection("userInfo").add({
@@ -164,6 +194,12 @@ export default {
     border-top-right-radius: 2vh;
     margin-top: -5vh;
     background-color: #fff;
+
+    .grid-text {
+      font-size: 2.5vh;
+      color: #909399;
+      padding: 10rpx 0 20rpx 0rpx;
+    }
 
     .btn {
       width: 70vw;

@@ -8,38 +8,57 @@ let uniSubscribemsg = new UniSubscribemsg({
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const { templateId, lisence, km, text, openId } = event
-  try {
-    // 发送模板消息
-    let date = getTime()
-    let res = await uniSubscribemsg.sendSubscribeMessage({
-      touser: openId,
-      template_id: templateId,
-      page: "pages/index/index",
-      miniprogram_state: "formal",
-      lang: "zh_CN",
-      data: {
-        car_number5: {
-          value: lisence
-        },
-        phrase3: {
-          value: '提醒'
-        },
-        phrase1: {
-          value: km
-        },
-        time2: {
-          value: date
-        },
-        thing9: {
-          value: text
-        }
-      }
-    });
-    return res
-  } catch (err) {
-    return err
+  const dbJQL = uniCloud.databaseForJQL({ event, context })
+  const res = await dbJQL.collection('userInfo').get()
+  const date = getTime()
+  const now = Number(new Date(date))
+  for (let i = 0; i < res.data.length; i++) {
+    for (let j = 0; j < res.data[i].carId.length; j++) {
+      let userTime = Number(new Date(res.data[i].carId[j].time))
+      let result = (Math.abs(now - userTime)) / 60000
+      if (result >= 10) continue
+      await send(res.data[i].carId[j], date)
+      await delay(1500)
+    }
   }
+  return 'ok'
+}
+
+const send = (carItem, date) => {
+  // 发送提醒
+  return uniSubscribemsg.sendSubscribeMessage({
+    touser: carItem.openId,
+    template_id: 'yHEPvG95v7yLi2zFgWykNGhxNMLaeLEE8ku9px4RynY',
+    page: "pages/index/index",
+    miniprogram_state: "formal",
+    lang: "zh_CN",
+    data: {
+      car_number5: {
+        value: carItem.license
+      },
+      phrase3: {
+        value: '定时提醒'
+      },
+      phrase1: {
+        value: '待处理'
+      },
+      time2: {
+        value: date
+      },
+      thing9: {
+        value: carItem.text
+      }
+    }
+  })
+}
+
+const delay = (time) => {
+  // 延迟防止连续发送
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve()
+    }, time)
+  })
 }
 
 const getTime = () => {
