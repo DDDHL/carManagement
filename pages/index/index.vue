@@ -1,6 +1,13 @@
 <template>
   <view class="content">
-    <view class="listItem" v-for="item in list" :key="item" @click="clickItem(item)">
+    <view class="input">
+      <u-input v-model="searchKey" placeholder="搜索车牌号" @change="search" @confirm="getData">
+        <template #suffix>
+          <u-icon size="30" name="search" @click="getData"></u-icon>
+        </template>
+      </u-input>
+    </view>
+    <view class="listItem" v-for="item,index in list" :key="index" @click="clickItem(item)">
       <view class="pic">
         <image class="logo" :src="item.imgUrls[0]" mode="aspectFill"></image>
       </view>
@@ -27,6 +34,7 @@ export default {
     return {
       title: 'Hello',
       list: [],
+      searchKey: ''
     }
   },
   onShow () {
@@ -40,19 +48,20 @@ export default {
     this.getData()
   },
   methods: {
-    getData () {
+    search () {
+      if (!this.searchKey) this.getData()
+    },
+    async getData () {
       const db = uniCloud.database()
-      db.collection('carInfo').get().then(res => {
-        this.list = res.result.data
-      }).catch(err => {
-        uni.showModal({
-          content: err.message || '查询失败',
-          showCancel: false
-        })
-      }).finally(() => {
-        uni.hideLoading();
-        uni.stopPullDownRefresh();
-      })
+      let res
+      if (this.searchKey) {
+        res = await db.collection('carInfo').where(`license=="${this.searchKey}"`).get()
+      } else {
+        res = await db.collection('carInfo').get()
+      }
+      this.list = res.result.data
+      uni.hideLoading();
+      uni.stopPullDownRefresh();
     },
     clickItem (item) {
       this.$store.state.clickItem = item

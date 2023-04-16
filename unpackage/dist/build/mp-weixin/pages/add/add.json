@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "新增车辆",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "img-upload": "../../component/imgUpload"
-  }
-}

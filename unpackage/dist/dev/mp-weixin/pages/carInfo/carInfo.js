@@ -118,14 +118,31 @@ const _sfc_main = {
           mask: true
         });
         let time = this.date + " " + this.array[this.index];
-        this.$store.state.loginInfo.info.carId.push({
-          time,
-          id: this.carInfo._id,
-          openId: this.$store.state.loginInfo.info.openId,
-          license: this.carInfo.license,
-          km: this.carInfo.km,
-          text: "定时提醒保养"
-        });
+        let isHad = false;
+        for (let i = 0; i < this.$store.state.loginInfo.info.carId.length; i++) {
+          if (this.$store.state.loginInfo.info.carId[i].id == this.carInfo._id) {
+            isHad = true;
+            this.$store.state.loginInfo.info.carId[i] = {
+              time,
+              id: this.carInfo._id,
+              openId: this.$store.state.loginInfo.info.openId,
+              license: this.carInfo.license,
+              km: this.carInfo.km,
+              text: "定时提醒保养"
+            };
+            break;
+          }
+        }
+        if (!isHad) {
+          this.$store.state.loginInfo.info.carId.push({
+            time,
+            id: this.carInfo._id,
+            openId: this.$store.state.loginInfo.info.openId,
+            license: this.carInfo.license,
+            km: this.carInfo.km,
+            text: "车辆需要进行维修或者保养"
+          });
+        }
         let res = await db.collection("userInfo").where(`
 openId=="${this.$store.state.loginInfo.info.openId}"`).update({
           carId: this.$store.state.loginInfo.info.carId
@@ -138,6 +155,7 @@ openId=="${this.$store.state.loginInfo.info.openId}"`).update({
           });
           this.setType = "已设置定时提醒";
         } else {
+          this.$store.state.loginInfo.info.carId.pop();
           common_vendor.index.hideLoading();
           common_vendor.index.showToast({
             title: "设置定时失败",
@@ -203,6 +221,16 @@ openId=="${this.$store.state.loginInfo.info.openId}"`).update({
       await common_vendor.Ls.callFunction({
         name: "carManager",
         data: { type: "deleteImg", fileUrls: this.carInfo.imgUrls }
+      });
+      for (let i = 0; i < this.$store.state.loginInfo.info.carId.length; i++) {
+        if (this.$store.state.loginInfo.info.carId[i].id == this.carInfo._id) {
+          this.$store.state.loginInfo.info.carId.splice(i, 1);
+          break;
+        }
+      }
+      await db.collection("userInfo").where(`
+      openId=="${this.$store.state.loginInfo.info.openId}"`).update({
+        carId: this.$store.state.loginInfo.info.carId
       });
       common_vendor.index.hideLoading();
       common_vendor.index.showToast({

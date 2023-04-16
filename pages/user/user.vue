@@ -20,6 +20,9 @@
           </u-grid-item>
         </u-grid>
       </view>
+      <view class="btn" v-if="$store.state.loginInfo.isLogin">
+        <u-button type="error" text="退出登录" @click="loginout"></u-button>
+      </view>
     </view>
   </view>
 </template>
@@ -42,6 +45,17 @@ export default {
     uni.stopPullDownRefresh();
   },
   methods: {
+    loginout () {
+      this.$store.state.loginInfo = {
+        isLogin: false,
+        info: {
+          userName: '未登录',
+          avatar: '/static/avatar.png',
+          openId: '',
+          carId: []
+        }
+      }
+    },
     clickIcon (name) {
       switch (this.list[name].title) {
         case '定时提醒':

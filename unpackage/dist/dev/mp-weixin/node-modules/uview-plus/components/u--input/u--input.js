@@ -3,7 +3,7 @@ const common_vendor = require("../../../../common/vendor.js");
 const uvInput = () => "../u-input/u-input.js";
 const _sfc_main = {
   name: "u--input",
-  mixins: [common_vendor.mpMixin, common_vendor.props$6, common_vendor.mixin],
+  mixins: [common_vendor.mpMixin, common_vendor.props$1, common_vendor.mixin],
   components: {
     uvInput
   }

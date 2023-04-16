@@ -64,6 +64,20 @@ export default {
         }))
         fileListLen++
       }
+      let show = false
+      for (let i = 0; i < this.fileList.length; i++) {
+        if (this.fileList[i].size / 1024 > 5000) {
+          show = true
+          this.fileList.splice(i, 1)
+        }
+      }
+      if (show) {
+        uni.showModal({
+          content: '图片大小不能超过5M，已自动移除不合格图片',
+          showCancel: false
+        })
+      }
+      console.log(this.fileList)
     },
     submit () {
       if (!this.fileList.length) {
@@ -207,6 +221,4 @@ export default {
     margin-top: 2vh;
   }
 }
-</style>
-<style>
 </style>

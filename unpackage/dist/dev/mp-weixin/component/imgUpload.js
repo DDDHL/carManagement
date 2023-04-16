@@ -37,6 +37,20 @@ const _sfc_main = {
         }));
         fileListLen++;
       }
+      let show = false;
+      for (let i = 0; i < this.fileList.length; i++) {
+        if (this.fileList[i].size / 1024 > 5e3) {
+          show = true;
+          this.fileList.splice(i, 1);
+        }
+      }
+      if (show) {
+        common_vendor.index.showModal({
+          content: "图片大小不能超过5M，已自动移除不合格图片",
+          showCancel: false
+        });
+      }
+      console.log(this.fileList);
     },
     submit() {
       if (!this.fileList.length) {

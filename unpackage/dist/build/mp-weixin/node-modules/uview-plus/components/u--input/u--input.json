@@ -1,6 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "uv-input": "../u-input/u-input"
-  }
-}

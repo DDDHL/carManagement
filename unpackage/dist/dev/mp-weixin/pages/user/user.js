@@ -19,6 +19,17 @@ const _sfc_main = {
     common_vendor.index.stopPullDownRefresh();
   },
   methods: {
+    loginout() {
+      this.$store.state.loginInfo = {
+        isLogin: false,
+        info: {
+          userName: "未登录",
+          avatar: "/static/avatar.png",
+          openId: "",
+          carId: []
+        }
+      };
+    },
     clickIcon(name) {
       switch (this.list[name].title) {
         case "定时提醒":
@@ -175,7 +186,15 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       col: "2",
       border: true
     })
-  });
+  }, {
+    i: _ctx.$store.state.loginInfo.isLogin
+  }, _ctx.$store.state.loginInfo.isLogin ? {
+    j: common_vendor.o($options.loginout),
+    k: common_vendor.p({
+      type: "error",
+      text: "退出登录"
+    })
+  } : {});
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-0f7520f0"], ["__file", "D:/object2/carManagement/pages/user/user.vue"]]);
 wx.createPage(MiniProgramPage);
